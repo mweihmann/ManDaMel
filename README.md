@@ -30,15 +30,15 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 
 ## 🚀 **Getting Started**
 
-### 🔹 **1. Install Docker & Docker Compose**
+### 🔹 **1. Install Docker & Linux on Windows**
 Make sure you have **Docker** installed:
 - [Download Docker](https://www.docker.com/get-started)
+- [Linux on Windows](https://learn.microsoft.com/de-de/windows/wsl/install)
 
 
 ### 🔹 **2. Clone the Repository**
 ```sh
 git clone https://github.com/mweihmann/ManDaMel.git
-cd mandamel
 ```
 
 ### 🔹 **3. Start the Containers**
