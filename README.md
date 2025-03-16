@@ -31,9 +31,9 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 ## 🚀 **Getting Started**
 
 ### 🔹 **1. Install Docker & Docker Compose**
-Make sure you have **Docker** and **Docker Compose** installed:
+Make sure you have **Docker** installed:
 - [Download Docker](https://www.docker.com/get-started)
-- [Install Docker Compose](https://docs.docker.com/compose/install/)
+
 
 ### 🔹 **2. Clone the Repository**
 ```sh
