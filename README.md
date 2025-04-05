@@ -79,7 +79,7 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 ### Clone the repo:
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/mweihmann/ManDaMel.git
 cd ManDaMel
 ```
 
@@ -143,7 +143,7 @@ chmod +x MACOS_START.sh
 
 ### 🗄️ Database Initialization
 
-Initialisiert sich automatisch mit:
+Initializes automatically with:
 - `database/init.sql`
 - `database/seed.sql`
 
