@@ -1,0 +1,32 @@
+# Node & Composer dependencies
+**/vendor/
+**/node_modules/
+
+# Composer
+composer.lock
+
+# Environment settings
+.env
+
+# Logs
+*.log
+/tmp/*
+php_debug.log
+xdebug.log
+
+# OS and IDE junk
+.DS_Store
+Thumbs.db
+
+# Docker files generated
+*.pid
+*.sock
+
+# Runtime/Compiled
+*.cache
+*.class
+*.pyc
+*.swp
+
+# Dev container volumes (optional)
+.vscode-server/
