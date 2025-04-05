@@ -24,7 +24,6 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │   ├── 📁 models
 │   │   └── 👤 User.php                -- User model representing DB structure
 │   ├── 📁 public                      -- Public web root (exposed to Apache)
-│   │   ├── ⚙️ .vscode                 -- Debug config for frontend (optional)
 │   │   ├── 📁 api
 │   │   │   └── 🔌 serviceHandler.php  -- API endpoint to handle AJAX calls
 │   │   ├── 📦 vendor                  -- Autoloaded dependencies (Composer)
