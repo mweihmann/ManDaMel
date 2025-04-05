@@ -143,7 +143,7 @@ chmod +x MACOS_START.sh
 
 ### 🗄️ Database Initialization
 
-Initialisiert sich automatisch mit:
+Initializes automatically with:
 - `database/init.sql`
 - `database/seed.sql`
 
