@@ -42,7 +42,8 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 ├── 📁 frontend                        -- Frontend application
 │   ├── 📁 .devcontainer               -- VS Code dev container for frontend
 │   │   ├── 📄 devcontainer.json       -- Dev container setup for frontend
-│   │   └── 🐘 Dockerfile              -- Dockerfile for frontend container
+│   │   ├── 🐘 Dockerfile              -- Dockerfile for frontend container
+│   │   └── ⚙️ xdebug.ini              -- Optional frontend Xdebug config
 │   ├── 📁 .vscode
 │   │   └── 🐞 launch.json             -- Xdebug launch config for frontend
 │   ├── 📁 css
@@ -51,8 +52,7 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │   ├── ⚙️ config.php                  -- Frontend config logic (PHP)
 │   ├── 🧾 index.php                   -- Main frontend file that loads data
 │   ├── 🧾 index2.php                  -- Alternative frontend layout or version (should be deleted)
-│   ├── 📝 register.php                -- Register form or placeholder
-│   └── ⚙️ xdebug.ini                  -- Optional frontend Xdebug config
+│   └── 📝 register.php                -- Register form or placeholder
 │
 ├── 🧩 .code-workspace                 -- VS Code workspace file
 ├── 📄 .gitignore                      -- Git ignore rules (node_modules, vendor, env, IDE files, etc.)
@@ -180,5 +180,15 @@ This removes **all data** including MySQL volumes.
 
 ---
 
-### **🚀 Purpose of this Project?**
-This project was developed by **Manuel Weihmann**, **Daniel Stepanovic** & **Melih Alcikaya** as part of our **Bachelor of Business Informatics** course.
+## 🎯 Project Purpose
+
+This project was developed as part of the **Web Development** course of the **Bachelor of Business Informatics** program  
+at the **University of Applied Sciences Technikum Vienna**.
+
+### 👨‍💻 Contributors
+
+| Name               |
+|--------------------|
+| Manuel Weihmann    |
+| Daniel Stepanovic  |
+| Melih Alcikaya     |
