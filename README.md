@@ -42,7 +42,7 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 ├── 📁 frontend                        -- Frontend application
 │   ├── 📁 .devcontainer               -- VS Code dev container for frontend
 │   │   ├── 📄 devcontainer.json       -- Dev container setup for frontend
-│   │   └── 🐘 Dockerfile              -- Dockerfile for frontend container
+│   │   ├── 🐘 Dockerfile              -- Dockerfile for frontend container
 │   │   └── ⚙️ xdebug.ini              -- Optional frontend Xdebug config
 │   ├── 📁 .vscode
 │   │   └── 🐞 launch.json             -- Xdebug launch config for frontend
@@ -52,7 +52,7 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │   ├── ⚙️ config.php                  -- Frontend config logic (PHP)
 │   ├── 🧾 index.php                   -- Main frontend file that loads data
 │   ├── 🧾 index2.php                  -- Alternative frontend layout or version (should be deleted)
-│   ├── 📝 register.php                -- Register form or placeholder
+│   └── 📝 register.php                -- Register form or placeholder
 │
 ├── 🧩 .code-workspace                 -- VS Code workspace file
 ├── 📄 .gitignore                      -- Git ignore rules (node_modules, vendor, env, IDE files, etc.)
