@@ -1,16 +1,3 @@
-<?php
-// Include database connection
-require_once 'config.php';
-
-try {
-    // Fetch products from the database
-    $stmt = $pdo->query("SELECT name, price FROM products");
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +20,7 @@ try {
               <div class="card-body">
                 <h5 class="card-title">Schedule I</h5>
                 <h6 class="card-subtitle mb-2 text-muted ">
-                    <img src="icons/steam_icon.png" alt="Steam_Logo" style="width:16px; height:16px; margin-left:5px;">
+                    <img src="images/steam_icon.png" alt="Steam_Logo" style="width:16px; height:16px; margin-left:5px;">
                     Steam <strong>&bull;</strong> Schlüssel <strong>&bull;</strong> Global </h6>
                 <p class="card-text">19,50€ <span class="float-end">
                     <i class="bi bi-star-fill"></i>

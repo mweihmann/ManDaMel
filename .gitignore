@@ -30,3 +30,4 @@ Thumbs.db
 
 # Dev container volumes (optional)
 .vscode-server/
+backend/public/composer.json
