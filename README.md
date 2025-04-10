@@ -67,7 +67,7 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 1. [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 2. [Visual Studio Code](https://code.visualstudio.com/)
 3. VS Code Extensions:
-   - Remote - Containers (`ms-vscode-remote.remote-containers`)
+   - Dev Containers (`ms-vscode-remote.remote-containers`)
    - PHP Debug (`xdebug.php-debug`)
    - PHP Intelephense (`bmewburn.vscode-intelephense-client`)
 
@@ -83,6 +83,18 @@ cd ManDaMel
 ```
 
 ### After cloning the repository, copy the .env.example file and rename it to .env:
+
+#### Windows in (Command Prompt)
+```bash
+copy .env.example .env
+```
+
+#### Windows (in PowerShell)
+```bash
+Copy-Item .env.example .env
+```
+
+#### macOS
 ```bash
 cp .env.example .env
 ```
