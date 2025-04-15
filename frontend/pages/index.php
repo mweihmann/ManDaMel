@@ -1,77 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php include '../includes/header.php'; ?>
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>ManDaMel</title>
-    <!-- Favicon-->
-    <link rel="icon" type="images/x-icon" href="assets/favicon.ico" />
-    <!-- Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- CSS-->
-    <link href="css/style.css" rel="stylesheet" />
-</head>
-
-<body>
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-        <div class="container px-4 px-lg-5">
-            <!--  <a class="navbar-brand" href="#!">ManDaMel</a>  Text oder doch Logo?-->
-            <a href="index.html">
-            <img src="images/logo.png" alt="Logo" class="logo-img">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Bestsellers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Software</a></li>
-
-                    <!-- Search -->
-                    <li class="nav-item">
-                        <form class="d-flex ms-3" role="search">
-                            <input class="form-control me-2 search-input" type="search"
-                                placeholder="What are you looking for?" aria-label="Search">
-                            <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-                        </form>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="bi-cart-fill me-1"></i>
-                        Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                    </button>
-                </form>
-                <div class="dropdown ms-3">
-                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="bi bi-person"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                      <li><a class="dropdown-item" href="login.html">Login</a></li>
-                      <li><a class="dropdown-item" href="#">Register</a></li>
-                    </ul>
-                  </div>
-            </div>
-        </div>
-    </nav>
-
+    
     <!-- Header -->
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
@@ -82,31 +11,6 @@
         </div>
     </header>
 
-    <!-- Header mit Bootstrap Carousel 
-<header>
-    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="assets/Minecraft.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="Slide 1">
-        </div>
-        <div class="carousel-item">
-          <img src="assets/Software.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="Slide 2">
-        </div>
-        <div class="carousel-item">
-          <img src="assets/warzone_background.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;" alt="Slide 3">
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </header>
--->
 
     <!-- Section-->
     <section class="py-5">
@@ -324,18 +228,4 @@
         </div>
     </section>
 
-    <!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
-        </div>
-    </footer>
-
-
-    <!-- Bootstrap Javascript-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Javascript -->
-    <script src="js/scripts.js"></script>
-</body>
-
-</html>
+<?php include '../includes/footer.php'; ?>
