@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ManDaMel</title>
-    <!-- Favicon-->
-    <link rel="icon" type="images/x-icon" href="assets/favicon.ico" />
-    <!-- Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- CSS-->
-    <link href="css/style.css" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 
 <body>
+
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
         <div class="container px-4 px-lg-5">
             <!--  <a class="navbar-brand" href="#!">ManDaMel</a>  Text oder doch Logo?-->
-            <a href="index.html">
-                <img src="images/logo.png" alt="Logo" class="logo-img">
+            <a href="../pages/index.php">
+                <img src="../images/logo.png" alt="Logo" class="logo-img">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -34,7 +36,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#!">All Products</a></li>
                             <li>
-                                <hr class="dropdown-divider" />
+                                <hr class="dropdown-divider"/>
                             </li>
                             <li><a class="dropdown-item" href="#!">Popular Items</a></li>
                             <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
@@ -51,7 +53,6 @@
                             <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
                         </form>
                     </li>
-
                 </ul>
                 <form class="d-flex">
                     <button class="btn btn-outline-dark" type="submit">
@@ -60,88 +61,15 @@
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                     </button>
                 </form>
-
                 <div class="dropdown ms-3">
-                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="#">Login</a></li>
-                        <li><a class="dropdown-item" href="#">Register</a></li>
+                        <li><a class="dropdown-item" href="login.php">Login</a></li>
+                        <li><a class="dropdown-item" href="register.php">Register</a></li>
                     </ul>
                 </div>
-
-
             </div>
         </div>
     </nav>
-
-
-    <div class="login-box">
-
-        <h2>Login</h2>
-
-        <form>
-
-            <div class="mb-3 text-start">
-
-                <label for="email" class="form-label">Email</label>
-
-                <input type="email" class="form-control" id="email" placeholder="Email" required>
-
-            </div>
-
-
-
-            <div class="mb-3 text-start">
-
-                <label for="password" class="form-label">Password</label>
-
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
-
-            </div>
-
-
-
-            <div class="mb-3 text-end">
-
-                <a href="#">Forgot password?</a>
-
-            </div>
-
-
-
-            <button type="submit" class="btn btn-orange w-100">Login</button>
-
-        </form>
-
-        <p class="mt-3">Don't have an account? <a href="#">Register</a></p>
-
-    </div>
-
-
-
-    <!-- Bootstrap 5 JS -->
-
-    <script src=https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js></script>
-
-
-
-
-
-
-
-    <!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
-        </div>
-    </footer>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
-</body>
-
-</html>
