@@ -43,3 +43,24 @@
   a:hover {
     text-decoration: underline;
   }
+
+
+
+
+
+  /* Centered form wrapper with clean vertical spacing */
+.auth-form-container {
+    min-height: calc(100vh - 150px); /* dynamische Höhe, minus Header & Footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+/* Optional: Abstand für die orange Linie */
+.orange-line {
+    height: 3px;
+    background-color: #fd7625;
+    margin: 2rem 0; /* mehr Abstand oben & unten */
+}
