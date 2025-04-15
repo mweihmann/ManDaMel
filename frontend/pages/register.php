@@ -1,15 +1,12 @@
 <?php include '../includes/header.php'; ?>
 
-
-
-
 <div class="container auth-form-container">
     <div class="w-100" style="max-width: 500px;">
 
         <div class="orange-line"></div>
         <h2 class="text-center mb-4">Register</h2>
 
-        <form method="POST" action="../actions/register_process.php">
+        <form id="register-form">
 
             <div class="mb-3">
                 <label for="salutation" class="form-label">Title</label>
@@ -64,12 +61,19 @@
             </div>
 
             <div class="mb-3">
+                <label for="confirm_password" class="form-label">Repeat Password</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Repeat password" required>
+            </div>
+
+            <div class="mb-3">
                 <label for="payment" class="form-label">Payment Information</label>
                 <input type="number" class="form-control" id="payment" name="payment" placeholder="IBAN or Credit Card" required>
             </div>
 
             <button type="submit" class="btn w-100 text-white" style="background-color: #fd7625;">Register</button>
         </form>
+
+
 
         <p class="mt-3 text-center">
             Already have an account? <a href="login.php" style="color: #fd7625;">Login</a>

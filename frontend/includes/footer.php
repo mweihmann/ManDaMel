@@ -11,5 +11,16 @@
     <!-- Javascript -->
     <script src="js/scripts.js"></script>
 
-    </body>
+    <!-- Load js for register, login + jquery-->
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF']);
+        if ($currentPage === 'register.php') {
+            echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>';
+            echo '<script src="../js/register.js"></script>';
+        } elseif ($currentPage === 'login.php') {
+            echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>';
+            echo '<script src="../js/login.js"></script>';
+        }
+    ?>
+
 </html>
