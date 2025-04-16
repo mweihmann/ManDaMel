@@ -24,7 +24,7 @@ $(document).ready(function () {
             if (response.token) {
                 localStorage.setItem('jwt', response.token);
                 alert('Login successful!');
-                window.location.href = 'index.php'; // or wherever you want
+                window.location.href = 'dashboard.php';
             } else {
                 alert(response.message || 'Login failed.');
             }
