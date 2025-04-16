@@ -5,10 +5,10 @@ $(document).ready(function () {
         const password = $('#password').val();
         const confirm = $('#confirm_password').val();
 
-        // if (password.length < 6) {
-        //     alert('Password must be at least 6 characters long.');
-        //     return;
-        // }
+        if (password.length < 6) {
+            alert('Password must be at least 6 characters long.');
+            return;
+        }
 
         if (password !== confirm) {
             alert("Passwords do not match.");
@@ -42,7 +42,7 @@ $(document).ready(function () {
             if (response.token) {
                 localStorage.setItem('jwt', response.token);
                 alert('Registration successful!');
-                window.location.href = 'index.php';
+                window.location.href = 'dashboard.php';
             } else {
                 alert(response.message || 'Registration failed.');
             }
