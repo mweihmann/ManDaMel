@@ -10,6 +10,7 @@ use Firebase\JWT\Key;
 $data = json_decode(file_get_contents("php://input"), true);
 $login = $data['login'] ?? '';
 $password = $data['password'] ?? '';
+$remember = $data['remember'] ?? false;
 
 if (!$login || !$password) {
     http_response_code(400);
@@ -52,14 +53,15 @@ $stmt->execute([
     'expires_at' => $expires_at
 ]);
 
-// refresh token as HttpOnly cookie
+// refresh token as HttpOnly cookie (expires if remember is checked)
 setcookie('refresh_token', $refresh_token, [
-    'expires' => time() + (60 * 60 * 24 * 7),
+    'expires' => $remember ? time() + (60 * 60 * 24 * 30) : 0,
     'path' => '/',
     'httponly' => true,
-    'secure' => false, // in production HTTPS
+    'secure' => false, // true if using HTTPS
     'samesite' => 'Strict'
 ]);
+
 
 echo json_encode([
     'message' => 'Login successful',

@@ -12,8 +12,9 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" placeholder="Password" required>
         </div>
-        <div class="mb-3 text-end">
-            <a href="#">Forgot password?</a>
+        <div class="form-check mb-3 text-start">
+            <input class="form-check-input" type="checkbox" id="remember" name="remember">
+            <label class="form-check-label" for="remember">Remember me</label>
         </div>
         <button type="submit" class="btn btn-orange w-100">Login</button>
     </form>
