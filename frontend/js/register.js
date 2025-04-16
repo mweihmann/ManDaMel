@@ -4,22 +4,31 @@ $(document).ready(function () {
 
         const password = $('#password').val();
         const confirm = $('#confirm_password').val();
+
+        // if (password.length < 6) {
+        //     alert('Password must be at least 6 characters long.');
+        //     return;
+        // }
+
         if (password !== confirm) {
             alert("Passwords do not match.");
             return;
         }
 
         const data = {
-            salutation: $('#salutation').val(),
+            pronouns: $('#salutation').val(),
             given_name: $('#firstname').val(),
             surname: $('#lastname').val(),
-            street: $('#address').val(),
+            street: $('#street').val(),
+            house_number: $('#house_number').val(),
             postal_code: $('#zip').val(),
             city: $('#city').val(),
+            country: $('#country').val(),
+            telephone: $('#telephone').val() ||'',
             email: $('#email').val(),
             username: $('#username').val(),
-            password: password,
-            payment: $('#payment').val()
+            password: $('#password').val(),
+            confirm_password: $('#confirm_password').val()
         };
 
         try {

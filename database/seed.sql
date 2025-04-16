@@ -1,4 +1,4 @@
-USE ManDaMel;
+USE mandamel;
 
 INSERT INTO
     users (

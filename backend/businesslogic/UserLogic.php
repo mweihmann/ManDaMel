@@ -45,8 +45,11 @@ class UserLogic {
 
     public function findByLogin(string $login): ?array {
         global $pdo;
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :login OR email = :login LIMIT 1");
-        $stmt->execute(['login' => $login]);
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :login1 OR email = :login2 LIMIT 1");
+        $stmt->execute([
+            'login1' => $login,
+            'login2' => $login
+        ]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user ?: null;
     }

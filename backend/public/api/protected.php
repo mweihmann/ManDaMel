@@ -1,10 +1,16 @@
 <?php
+
 require_once __DIR__ . '/../../config/bootstrap.php';
-require_once __DIR__ . '/../../middleware/AuthMiddleware.php';
+require_once __DIR__ . '/../../auth/AuthMiddleware.php';
 
-$userData = authenticate();
+try {
+    $user = authenticate();
 
-echo json_encode([
-    'message' => 'Access granted',
-    'user' => $userData
-]);
+    echo json_encode([
+        'message' => 'Access granted to protected content.',
+        'user' => $user
+    ]);
+} catch (Exception $e) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized: ' . $e->getMessage()]);
+}

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../config/db.php';
 
 // set_error_handler('ErrorHandler::handleError');
 // set_exception_handler('ErrorHandler::handleException');
@@ -28,4 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+$database = new Database(
+    $_ENV['DB_HOST'],
+    $_ENV['DB_NAME'],
+    $_ENV['DB_USER'],
+    $_ENV['DB_PASS']
+);
+
+$pdo = $database->getConnection();
+
 ?>
