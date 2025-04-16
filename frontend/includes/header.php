@@ -66,8 +66,7 @@
                         <i class="bi bi-person"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" id="user-dropdown-menu">
-                        <li><a class="dropdown-item" href="login.php">Login</a></li>
-                        <li><a class="dropdown-item" href="register.php">Register</a></li>
+                        <!-- Filled by JS depending on cookie -->
                     </ul>
                 </div>
             </div>

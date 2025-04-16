@@ -4,6 +4,7 @@ $(document).ready(function () {
 
         const login = $('#login').val().trim();
         const password = $('#password').val().trim();
+        const remember = $('#remember').is(':checked');
 
         if (!login || !password) {
             alert("Please enter both login and password.");
@@ -17,12 +18,20 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify({
                     login: login,
-                    password: password
-                })
+                    password: password,
+                    remember: remember
+                }),
+                xhrFields: {
+                    withCredentials: true
+                }
             });
 
             if (response.token) {
-                localStorage.setItem('jwt', response.token);
+                if (remember) {
+                    localStorage.setItem('jwt', response.token);
+                } else {
+                    sessionStorage.setItem('jwt', response.token);
+                }
                 alert('Login successful!');
                 window.location.href = 'dashboard.php';
             } else {

@@ -36,7 +36,7 @@ $(document).ready(function () {
                 url: 'http://localhost:5000/api/register.php',
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(data)
+                data: JSON.stringify(data),
             });
 
             if (response.token) {

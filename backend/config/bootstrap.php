@@ -14,10 +14,11 @@ ini_set('display_errors', $_ENV['APP_DEBUG'] ?? true);
 date_default_timezone_set($_ENV['APP_TIMEZONE'] ?? 'UTC');
 
 // CORS and JSON headers for API responses
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Credentials: true");
 
 // Handle CORS preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
