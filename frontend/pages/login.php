@@ -3,7 +3,7 @@
 
 <div class="login-box">
     <h2>Login</h2>
-    <form>
+    <form id="loginForm">
         <div class="mb-3 text-start">
             <label for="login" class="form-label">Username or Email</label>
             <input type="text" class="form-control" id="login" placeholder="Username or Email" required>

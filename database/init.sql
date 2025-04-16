@@ -1,10 +1,8 @@
--- Create database if not exists
 CREATE DATABASE IF NOT EXISTS mandamel;
 USE mandamel;
 
--- Create users table
 CREATE TABLE users (
-    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100) UNIQUE NOT NULL,
     pronouns VARCHAR(10) NOT NULL,
     given_name VARCHAR(100) NOT NULL,
@@ -18,17 +16,86 @@ CREATE TABLE users (
     house_number VARCHAR(10),
     role ENUM('admin', 'employee', 'user') NOT NULL,
     user_state ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
-    newsletter TINYINT(1) NOT NULL DEFAULT 0,
     password_hash VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_login DATETIME NULL
 );
 
--- Create products table
-CREATE TABLE IF NOT EXISTS products (
-    product_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE payment_info (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    method ENUM('creditcard', 'iban', 'voucher') NOT NULL,
+    creditcard_number VARCHAR(20),
+    creditcard_expiry VARCHAR(7),
+    creditcard_cvv VARCHAR(4),
+    iban VARCHAR(34),
+    voucher_code VARCHAR(5),
+    holder_name VARCHAR(100),
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE categories (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE products (
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description TEXT,
+    rating INT,
     price DECIMAL(10,2) NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    category_id INT,
+    image BLOB,
+    file_path VARCHAR(255) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+CREATE TABLE vouchers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(5) UNIQUE NOT NULL,
+    value DECIMAL(10,2) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    is_used BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE promo_codes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    discount DECIMAL(10,2) NOT NULL,
+    type ENUM('fixed', 'percentage'),
+    expires_at DATETIME,
+    usage_limit INT
+);
+
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    payment_method ENUM('creditcard', 'iban', 'voucher'),
+    total DECIMAL(10,2) NOT NULL,
+    promo_code_id INT,
+    voucher_id INT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (promo_code_id) REFERENCES promo_codes(id),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers(id)
+);
+
+CREATE TABLE order_items (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE refresh_tokens (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expires_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );

@@ -1,0 +1,129 @@
+Project ManDaMel {
+  database_type: "MySQL"
+  note: "Webshop with admin, JWT auth, voucher & payment options"
+}
+
+Enum user_role {
+  admin
+  employee
+  user
+}
+
+Enum user_state {
+  active
+  inactive
+}
+
+Enum promo_type {
+  fixed
+  percentage
+}
+
+Enum payment_method {
+  creditcard
+  iban
+  voucher
+}
+
+Table users {
+  id int [pk, increment]
+  username varchar(100) [unique, not null]
+  pronouns varchar(10) [not null]
+  given_name varchar(100) [not null]
+  surname varchar(100) [not null]
+  email varchar(100) [unique, not null]
+  telephone varchar(20)
+  country varchar(100)
+  city varchar(100)
+  postal_code varchar(10)
+  street varchar(100)
+  house_number varchar(10)
+  role user_role [not null]
+  user_state user_state [not null, default: 'active']
+  password_hash varchar(255) [not null]
+  created_at datetime [default: `CURRENT_TIMESTAMP`]
+  last_login datetime
+
+  Note: 'Webshop users including admin/customer'
+}
+
+Table payment_info {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  method payment_method [not null]
+  creditcard_number varchar(20)
+  creditcard_expiry varchar(7)
+  creditcard_cvv varchar(4)
+  iban varchar(34)
+  voucher_code varchar(5)
+  holder_name varchar(100)
+  created_at datetime [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Only one of: creditcard, iban or voucher is used'
+}
+
+Table categories {
+  id int [pk, increment]
+  name varchar [unique, not null]
+}
+
+Table products {
+  id int [pk, increment]
+  name varchar [not null]
+  description text
+  rating int
+  price decimal(10,2) [not null]
+  category_id int [ref: > categories.id]
+  image blob
+  file_path varchar [not null]
+  created_at datetime [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Digital products with image, price, rating'
+}
+
+Table orders {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  payment_method payment_method
+  total decimal(10,2) [not null]
+  promo_code_id int [ref: > promo_codes.id]
+  voucher_id int [ref: > vouchers.id]
+  created_at datetime [default: `CURRENT_TIMESTAMP`]
+}
+
+Table order_items {
+  id int [pk, increment]
+  order_id int [ref: > orders.id]
+  product_id int [ref: > products.id]
+  price decimal(10,2) [not null]
+
+  Note: 'Snapshot of product price at time of order'
+}
+
+Table vouchers {
+  id int [pk, increment]
+  code varchar(5) [unique, not null]
+  value decimal(10,2) [not null]
+  expires_at datetime [not null]
+  is_used boolean [default: false]
+
+  Note: 'Admin-created, 5-char codes, single-use'
+}
+
+Table promo_codes {
+  id int [pk, increment]
+  code varchar [unique, not null]
+  discount decimal(10,2) [not null]
+  type promo_type
+  expires_at datetime
+  usage_limit int
+
+  Note: 'Optional promo discount codes'
+}
+
+Table refresh_tokens {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  token varchar [not null]
+  expires_at datetime
+}
