@@ -32,10 +32,10 @@ VALUES
         '1A',
         'admin',
         'active',
-        '$2y$10$EXAMPLEHASHEDADMINPASS'
+        '$2y$10$TthgLD7O2tRf3mIvRV7NIuXnPNp4eubWTFY4g4rFZfEJ302c7jvvG'
     ),
     (
-        'lisa123',
+        'lisa',
         'she/her',
         'Lisa',
         'User',
@@ -48,7 +48,7 @@ VALUES
         '99',
         'user',
         'active',
-        '$2y$10$EXAMPLEHASHEDUSERPASS'
+        '$2y$10$ygTi/5dPftyz.e4D5zsRMul3vsr3mNhT/9TDnLIRuj/vDKlZjfoqa'
     );
 
 INSERT INTO

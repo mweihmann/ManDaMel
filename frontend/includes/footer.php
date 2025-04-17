@@ -15,9 +15,12 @@
 
     <!-- Load js for register, login-->
     <?php
+        // echo password_hash('lisa', PASSWORD_DEFAULT); // Test password_hash
         $currentPage = basename($_SERVER['PHP_SELF']);
         if ($currentPage === 'register.php') {
             echo '<script src="/js/register.js"></script>';
+        } elseif ($currentPage === 'my_orders.php') {
+            echo '<script src="/js/my_orders.js"></script>';
         } elseif ($currentPage === 'login.php') {
             echo '<script src="/js/login.js"></script>';
         }
