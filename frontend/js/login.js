@@ -33,7 +33,7 @@ $(document).ready(function () {
                     sessionStorage.setItem('jwt', response.token);
                 }
                 alert('Login successful!');
-                window.location.href = 'dashboard.php';
+                window.location.href = 'index.php';
             } else {
                 alert(response.message || 'Login failed.');
             }

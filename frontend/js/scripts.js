@@ -5,6 +5,7 @@ $(document).ready(function () {
     if (jwt) {
         menu.html(`
         <li><a class="dropdown-item" href="/pages/dashboard.php">Dashboard</a></li>
+        <li><a class="dropdown-item" href="/pages/my_orders.php">My Orders</a></li>
         <li><a class="dropdown-item" href="#" id="logout-link">Logout</a></li>
         `);
 
