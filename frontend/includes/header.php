@@ -45,6 +45,8 @@
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Bestsellers</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Software</a></li>
 
+                    
+
                     <!-- Search -->
                     <li class="nav-item">
                         <form class="d-flex ms-3" role="search">
@@ -54,13 +56,18 @@
                         </form>
                     </li>
                 </ul>
+                
                 <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
+                    <!-- Shows cart icon with item count - offcanvas -->
+                    <button class="btn btn-outline-dark position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" aria-controls="cartSidebar">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+                            0
+                        </span>
                     </button>
                 </form>
+
                 <div class="dropdown ms-3">
                     <button class="btn btn-outline-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person"></i>
