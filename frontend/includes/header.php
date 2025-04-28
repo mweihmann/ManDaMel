@@ -17,6 +17,28 @@
 
 <body>
 
+    <!-- Sidebar für Warenkorb -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="cartSidebarLabel">Your Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="cartContents"></div>
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+            <strong>Total:</strong>
+            <span id="cartTotal" class="fw-bold">$0.00</span>
+        </div>
+        <div class="mt-3 text-end">
+            <button id="clearCartBtn" class="btn btn-link text-danger p-0" title="Clear cart">
+                <i class="bi bi-trash" style="font-size: 1.3rem;"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 

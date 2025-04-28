@@ -1,5 +1,6 @@
 <?php include '../includes/header.php'; ?>
 
+
     
     <!-- Header -->
     <header class="bg-dark py-5">
@@ -226,25 +227,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Displays cart sidebar with controls-->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="cartSidebarLabel"> Your Cart</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div id="cartContents"></div>
-                <hr>
-                <div class="d-flex justify-content-between align-items-center">
-                    <strong>Total:</strong>
-                    <span id="cartTotal" class="fw-bold">$0.00</span>
-                </div>
-                <div class="mt-3 text-end">
-                    <button id="clearCartBtn" class="btn btn-link text-danger p-0" title="Clear cart"><i class="bi bi-trash" style="font-size: 1.3rem;"></i></button>
-                </div>
-            </div>
-        </div>
     </section>
 
 
@@ -256,92 +238,95 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartTotal = document.getElementById("cartTotal");
 
     function renderCart() {
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        cartCount.textContent = cart.length;
+        fetch('/backend/cart/get_cart.php')
+            .then(response => response.json())
+            .then(cart => {
+                cartCount.textContent = cart.length;
 
-        if (cart.length === 0) {
-            cartContents.innerHTML = "<p>Your cart is empty.</p>";
-            cartTotal.textContent = "$0.00";
-            return;
-        }
-
-        let html = "<ul class='list-group'>";
-        let total = 0;
-
-        cart.forEach((item, index) => {
-            html += `
-                <div class="border-bottom pb-3 mb-3">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <strong>${item.name}</strong><br>
-                            <span>$${item.price}</span>
-                        </div>
-                        <button class="btn btn-link text-danger p-0 remove-item" data-index="${index}" title="Remove">
-                            <i class="bi bi-trash" style="font-size: 1.2rem;"></i>
-                        </button>
-                    </div>
-                    <div class="mt-2">
-                        <label class="me-2">Quantity:</label>
-                        <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="form-control d-inline-block quantity-input" style="width: 70px;">
-                    </div>
-                </div>
-            `;
-            total += parseFloat(item.price) * (item.quantity || 1);
-        });
-
-        html += "</ul>";
-        cartContents.innerHTML = html;
-        cartTotal.textContent = `$${total.toFixed(2)}`;
-
-        //Quantity ändern!!
-        document.querySelectorAll('.quantity-input').forEach(input => {
-            input.addEventListener('change', (e) => {
-                const index = e.target.dataset.index;
-                const newQty = parseInt(e.target.value);
-                let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-                if (newQty >= 1) {
-                    cart[index].quantity = newQty;
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    renderCart();
+                if (cart.length === 0) {
+                    cartContents.innerHTML = "<p>Your cart is empty.</p>";
+                    cartTotal.textContent = "$0.00";
+                    return;
                 }
-            });
-        });
 
-        // produkt entfernen können
-        document.querySelectorAll('.remove-item').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const index = e.target.closest('button').dataset.index;
-                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                let html = "<ul class='list-group'>";
+                let total = 0;
 
-                cart.splice(index, 1);
-                localStorage.setItem("cart", JSON.stringify(cart));
-                renderCart();
+                cart.forEach((item) => {
+                    html += `
+                        <div class="border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>${item.name}</strong><br>
+                                    <span>$${item.price}</span>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <label class="me-2">Quantity:</label>
+                                <span>${item.quantity}</span>
+                            </div>
+                        </div>
+                    `;
+                    total += parseFloat(item.price) * (item.quantity || 1);
+                });
+
+                html += "</ul>";
+                cartContents.innerHTML = html;
+                cartTotal.textContent = `$${total.toFixed(2)}`;
+            })
+            .catch(error => {
+                console.error('Fehler beim Abrufen des Warenkorbs:', error);
             });
-        });
     }
 
-    // produkt zum Warenkorb hinzufügen
+    // Produkt zum Warenkorb hinzufügen
     cartButtons.forEach(button => {
         button.addEventListener("click", () => {
             const name = button.dataset.name;
             const price = parseFloat(button.dataset.price);
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-            cart.push({ name, price, quantity: 1 });
-            localStorage.setItem("cart", JSON.stringify(cart));
-            renderCart();
+            fetch('/backend/cart/add_to_cart.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    price: price,
+                    quantity: 1
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Produkt hinzugefügt:', data);
+                cartCount.textContent = data.cartItemCount;
+                renderCart();
+            })
+            .catch(error => {
+                console.error('Fehler beim Hinzufügen zum Warenkorb:', error);
+            });
         });
     });
 
     // Warenkorb leeren
     document.getElementById("clearCartBtn").addEventListener("click", () => {
-        localStorage.removeItem("cart");
-        renderCart();
+        fetch('/backend/cart/clear_cart.php', {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Warenkorb geleert:', data);
+            renderCart();
+        })
+        .catch(error => {
+            console.error('Fehler beim Leeren des Warenkorbs:', error);
+        });
     });
-    renderCart();
+
+    renderCart(); // 
 });
 </script>
+
 
 
 
