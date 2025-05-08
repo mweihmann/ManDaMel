@@ -25,19 +25,12 @@
             <img src="../images/logo.png" alt="Logo" class="logo-img me-3" />
         </a>
 
-        <!-- Suche direkt neben Logo -->
+        <!-- Suche -->
         <form class="d-flex flex-grow-1 me-4" role="search">
-            <input class="form-control me-2 search-input" type="search" placeholder="What are you looking for?" aria-label="Search">
+            <input id="product-search" class="form-control me-2 search-input" type="search"
+                placeholder="What are you looking for?" aria-label="Search">
             <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
         </form>
-                    <!-- Search -->
-                    <li class="nav-item">
-                        <form class="d-flex ms-3" role="search">
-                            <input id="product-search" class="form-control me-2 search-input" type="search"
-                                placeholder="What are you looking for?" aria-label="Search">
-                            <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-                        </form>
-                    </li>
         <!-- Cart & User -->
         <div class="d-flex align-items-center">
             <form class="d-flex me-3">
