@@ -41,8 +41,8 @@ function fetchProducts() {
                         </div>
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="/${escapeHtml(product.file_path)}" download>
-                                    ${(product.file_path.includes('.zip') || product.file_path.includes('.pdf')) ? 'Herunterladen' : 'Add to cart'}
+                                <a class="btn btn-outline-dark mt-auto" href="product.php?id=${product.id}">
+                                    Details ansehen
                                 </a>
                             </div>
                         </div>
