@@ -64,3 +64,11 @@
     background-color: #fd7625;
     margin: 2rem 0; /* mehr Abstand oben & unten */
 }
+
+
+
+.object-fit-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
