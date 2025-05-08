@@ -10,16 +10,16 @@
 <script src="../js/scripts.js"></script>
 <script src="../js/product_edit.js"></script>
 
-<?php
-$currentPage = basename($_SERVER['PHP_SELF']);
-if ($currentPage === 'register.php') {
-    echo '<script src="/js/register.js"></script>';
-} elseif ($currentPage === 'my_orders.php') {
-    echo '<script src="/js/my_orders.js"></script>';
-} elseif ($currentPage === 'login.php') {
-    echo '<script src="/js/login.js"></script>';
-} elseif ($currentPage === 'index.php') {
-    echo '<script src="/js/products.js"></script>';
-}
-?>
+    <?php
+        $currentPage = basename($_SERVER['PHP_SELF']);
+        if ($currentPage === 'register.php') {
+            echo '<script src="/js/register.js"></script>';
+        } elseif ($currentPage === 'my_account.php') {
+            echo '<script src="/js/my_account.js"></script>';
+        } elseif ($currentPage === 'login.php') {
+            echo '<script src="/js/login.js"></script>';
+        } elseif ($currentPage === 'index.php') {
+            echo '<script src="/js/products.js"></script>';
+        }
+    ?>
 </html>

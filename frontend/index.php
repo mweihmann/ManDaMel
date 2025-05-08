@@ -1,4 +1,4 @@
-<?php include '../includes/header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 <!-- Section -->
 <section class="py-5">
@@ -13,4 +13,4 @@
 <!-- JavaScript auslagern -->
 <script src="../js/products.js"></script>
 
-<?php include '../includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

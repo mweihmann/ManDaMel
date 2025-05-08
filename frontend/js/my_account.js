@@ -2,7 +2,7 @@ $(document).ready(function () {
   const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
 
   if (!token) {
-    window.location.href = '/pages/login.php';
+    window.location.href = 'login.php';
     return;
   }
 

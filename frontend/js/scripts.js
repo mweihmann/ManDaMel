@@ -3,24 +3,45 @@ $(document).ready(function () {
     const menu = $('#user-dropdown-menu');
 
     if (jwt) {
-        menu.html(`
-        <li><a class="dropdown-item" href="/pages/dashboard.php">Dashboard</a></li>
-        <li><a class="dropdown-item" href="/pages/my_orders.php">My Orders</a></li>
-        <li><a class="dropdown-item" href="#" id="logout-link">Logout</a></li>
-        `);
+
+        // Rolle aus dem jwt Token extrahieren (Base64 decode)
+        const payloadBase64 = jwt.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payloadBase64));
+        const role = decodedPayload.data?.role;
+
+        let links
+
+        // console.log('Decoded JWT Payload:', decodedPayload);
+        // console.log('User Role:', role);
+
+        if (role === 'admin') {
+            links = `
+                <li><a class="dropdown-item" href="manage_products.php">Edit Products</a></li>
+                <li><a class="dropdown-item" href="manage_customers.php">Edit Customers</a></li>
+                <li><a class="dropdown-item" href="manage_vouchers.php">Edit Vouchers</a></li>
+                <li><a class="dropdown-item" href="#" id="logout-link">Logout</a></li>
+            `;
+        } else if (role === 'user') {
+            links = `
+                <li><a class="dropdown-item" href="my_account.php">My Account</a></li>
+                <li><a class="dropdown-item" href="#" id="logout-link">Logout</a></li>
+            `;
+        }
+
+        menu.html(links);
 
         $('#logout-link').on('click', function (e) {
         e.preventDefault();
         localStorage.removeItem('jwt'); // remove cookies
         sessionStorage.removeItem('jwt');
         fetch('/api/logout.php', { method: 'GET' });
-        window.location.href = '/pages/login.php';
+        window.location.href = 'login.php';
         });
 
     } else {
         menu.html(`
-        <li><a class="dropdown-item" href="/pages/login.php">Login</a></li>
-        <li><a class="dropdown-item" href="/pages/register.php">Register</a></li>
+        <li><a class="dropdown-item" href="login.php">Login</a></li>
+        <li><a class="dropdown-item" href="register.php">Register</a></li>
         `);
     }
 });
