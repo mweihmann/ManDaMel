@@ -3,10 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadProducts() {
-    fetch('http://localhost:5000/api/products_edit.php')
+    fetch('http://localhost:5000/api/product_edit.php')
         .then(res => res.json())
         .then(products => {
             const container = document.getElementById('admin-edit-products');
+            if (!container) return;
             container.innerHTML = `
                 <table class="table table-striped">
                     <thead>

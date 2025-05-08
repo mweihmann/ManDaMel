@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../js/scripts.js"></script>
-<script src="../js/products_edit.js"></script>
+<script src="../js/product_edit.js"></script>
 
 <?php
 $currentPage = basename($_SERVER['PHP_SELF']);
