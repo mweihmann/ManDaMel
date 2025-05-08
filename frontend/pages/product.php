@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = `
                 <div class="col-md-8">
                     <div class="card mb-4">
-                        <img src="http://localhost:5000/uploads/images/${product.image}" class="card-img-top" alt="${escapeHtml(product.name)}" style="object-fit: cover; max-height: 400px;">
+                        <div class="ratio ratio-4x3">
+    <img src="${productImage}" class="card-img-top object-fit-cover" alt="${escapeHtml(product.name)}">
+</div>
                         <div class="card-body">
                             <h2 class="card-title">${escapeHtml(product.name)}</h2>
                             <div class="mb-2">${renderStars(product.rating)}</div>
