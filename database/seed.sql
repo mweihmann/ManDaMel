@@ -85,34 +85,88 @@ INSERT INTO
         price,
         category_id,
         file_path,
+        image,
         active
     )
 VALUES
     (
         'Learn PHP eBook',
-        'Complete PHP learning guide.',
+        'Complete PHP learning guide',
         4,
         9.99,
         1,
         'files/php_ebook.pdf',
+        'php_image.png',
         1
     ),
     (
         'Task Manager App',
-        'Boost productivity.',
+        'Boost productivity',
         5,
         19.99,
         2,
         'files/task_app.zip',
+        'task_app.png',
         1
     ),
     (
         'JS Mastery Course',
         'Advanced JavaScript',
-        5,
+        3,
         49.99,
         3,
         'files/js_course.zip',
+        'js_kurs.png',
+        1
+    ),
+    (
+        'HTML Quickstart Guide',
+        'Basic HTML with examples and cheatsheet',
+        2,
+        6.99,
+        1,
+        'files/html_guide.pdf',
+        'html.jpg',
+        1
+    ),
+    (
+        'Bug Tracker Pro',
+        'Tool to track software bugs and tickets',
+        1,
+        14.50,
+        2,
+        'files/bugtracker.zip',
+        'bug.jpg',
+        1
+    ),
+    (
+        'CSS Secrets Course',
+        'Learn layout techniques and animations',
+        4,
+        29.00,
+        3,
+        'files/css_course.zip',
+        'css.jpg',
+        1
+    ),
+    (
+        'MySQL Crash Course',
+        'Fundamentals of databases explained quickly',
+        5,
+        12.90,
+        1,
+        'files/mysql_crashkurs.pdf',
+        'mysql.jpg',
+        1
+    ),
+    (
+        'Python for Beginners',
+        'Beginner-friendly Python course',
+        5,
+        39.99,
+        3,
+        'files/python_course.zip',
+        'python.jpg',
         1
     );
 

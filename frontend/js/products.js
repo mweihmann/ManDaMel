@@ -28,9 +28,11 @@ function fetchProducts(query = '') {
                 const col = document.createElement('div');
                 col.className = 'col mb-5';
 
+
+                // Dynamisches Bild setzen
                 let productImage = 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg';
                 if (product.image && product.image.trim() !== '') {
-                    productImage = `http://localhost:5000/uploads/images/${product.image}`;
+                    productImage = `/images/${product.image}`;
                 }
 
                 col.innerHTML = `
@@ -45,14 +47,14 @@ function fetchProducts(query = '') {
                                 ${renderStars(product.rating)}
                                 <div class="text-muted mb-1">${escapeHtml(product.description)}</div>
                                 <div class="fw-bold mt-2">
-                                    $${Number(product.price).toFixed(2)}
+                                     ${Number(product.price).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center">
                                 <a class="btn btn-outline-dark mt-auto" href="product.php?id=${product.id}">
-                                    Details ansehen
+                                    Show details
                                 </a>
                             </div>
                         </div>
