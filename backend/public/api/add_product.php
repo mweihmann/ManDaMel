@@ -11,7 +11,7 @@ include_once __DIR__ . '/../../config/db.php';
 
 // Verzeichnisse für Uploads
 $uploadDirFiles = __DIR__ . '/../uploads/files/';
-$uploadDirImages = __DIR__ . '/../uploads/images/';
+$uploadDirImages = __DIR__ . '/../images/';
 
 // Verzeichnisse erstellen, falls nicht vorhanden
 if (!is_dir($uploadDirFiles)) {

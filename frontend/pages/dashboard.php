@@ -28,13 +28,17 @@
         </div>
 
         <div class="mb-3">
-            <label for="price" class="form-label">Preis ($)</label>
+            <label for="price" class="form-label">Preis (€)</label>
             <input type="number" class="form-control" id="price" name="price" step="0.01" required>
         </div>
 
         <div class="mb-3">
-            <label for="category_id" class="form-label">Kategorie-ID</label>
-            <input type="number" class="form-control" id="category_id" name="category_id" required>
+            <label for="category_id" class="form-label">Kategorie</label>
+            <select class="form-select" id="category_id" name="category_id" required>
+                <option value="1">eBooks</option>
+                <option value="2">Software</option>
+                <option value="3">Courses</option>
+            </select>
         </div>
 
         <div class="mb-3">
@@ -44,20 +48,33 @@
 
         <div class="mb-3">
             <label for="image" class="form-label">Produktbild</label>
-            <input type="file" class="form-control" id="image" name="image" required>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
+            <img id="preview" class="mt-3" style="max-height: 150px; display: none;" />
         </div>
 
         <button type="submit" class="btn btn-primary">Produkt hinzufügen</button>
     </form>
 </section>
 
-<!--  Bestehende Produkte verwalten -->
+<!-- Bestehende Produkte verwalten -->
 <section class="container mb-5">
     <h2>Produkte verwalten</h2>
     <div id="admin-edit-products">
         <!-- Hier wird später die Produkttabelle dynamisch eingefügt -->
     </div>
 </section>
+
+<script>
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const img = document.getElementById('preview');
+        img.src = reader.result;
+        img.style.display = 'block';
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+</script>
 
 <script src="../js/admin.js"></script>
 
