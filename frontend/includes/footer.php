@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../js/scripts.js"></script>
 <script src="../js/admin.js"></script>
-<script src="../js/products_edit.js"></script>
+<script src="../js/product_edit.js"></script>
 
 <?php
 $currentPage = basename($_SERVER['PHP_SELF']);

@@ -48,7 +48,7 @@
                     <!-- Search -->
                     <li class="nav-item">
                         <form class="d-flex ms-3" role="search">
-                            <input class="form-control me-2 search-input" type="search"
+                            <input id="product-search" class="form-control me-2 search-input" type="search"
                                 placeholder="What are you looking for?" aria-label="Search">
                             <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
                         </form>

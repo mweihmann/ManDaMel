@@ -84,7 +84,8 @@ INSERT INTO
         rating,
         price,
         category_id,
-        file_path
+        file_path,
+        active
     )
 VALUES
     (
@@ -93,7 +94,8 @@ VALUES
         4,
         9.99,
         1,
-        'files/php_ebook.pdf'
+        'files/php_ebook.pdf',
+        1
     ),
     (
         'Task Manager App',
@@ -101,7 +103,8 @@ VALUES
         5,
         19.99,
         2,
-        'files/task_app.zip'
+        'files/task_app.zip',
+        1
     ),
     (
         'JS Mastery Course',
@@ -109,7 +112,8 @@ VALUES
         5,
         49.99,
         3,
-        'files/js_course.zip'
+        'files/js_course.zip',
+        1
     );
 
 INSERT INTO

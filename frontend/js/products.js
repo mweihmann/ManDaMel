@@ -1,9 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetchProducts();
+    const searchInput = document.getElementById('product-search');
+    const hasSearch = !!searchInput;
+
+    if (hasSearch) {
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim();
+            fetchProducts(query);
+        });
+    }
+
+    fetchProducts(); // initialer Abruf
 });
 
-function fetchProducts() {
-    fetch('http://localhost:5000/api/product_data.php')
+function fetchProducts(query = '') {
+    fetch(`http://localhost:5000/api/product_data.php?search=${encodeURIComponent(query)}`)
         .then(res => res.json())
         .then(products => {
             const productList = document.getElementById('product-list');
@@ -18,19 +28,17 @@ function fetchProducts() {
                 const col = document.createElement('div');
                 col.className = 'col mb-5';
 
-                // Dynamisches Bild setzen
-                let productImage = 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg'; // Standardbild
+                let productImage = 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg';
                 if (product.image && product.image.trim() !== '') {
                     productImage = `http://localhost:5000/uploads/images/${product.image}`;
                 }
 
-
                 col.innerHTML = `
                     <div class="card h-100">
                         ${product.rating >= 5 ? '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Top</div>' : ''}
-                       <div class="ratio ratio-4x3">
+                        <div class="ratio ratio-4x3">
                             <img src="${productImage}" alt="${escapeHtml(product.name)}" class="card-img-top object-fit-cover">
-                            </div>
+                        </div>
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <h5 class="fw-bolder">${escapeHtml(product.name)}</h5>
@@ -60,16 +68,16 @@ function fetchProducts() {
         });
 }
 
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function renderStars(rating) {
     let stars = '';
     for (let i = 0; i < rating; i++) {
         stars += '<div class="bi-star-fill"></div>';
     }
     return `<div class="d-flex justify-content-center small text-warning mb-2">${stars}</div>`;
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
 }
