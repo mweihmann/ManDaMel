@@ -28,7 +28,9 @@ function fetchProducts() {
                 col.innerHTML = `
                     <div class="card h-100">
                         ${product.rating >= 5 ? '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Top</div>' : ''}
-                        <img class="card-img-top" src="${productImage}" alt="${escapeHtml(product.name)}" style="object-fit: cover; width: 100%; height: 300px;" />
+                       <div class="ratio ratio-4x3">
+                            <img src="${productImage}" alt="${escapeHtml(product.name)}" class="card-img-top object-fit-cover">
+                            </div>
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <h5 class="fw-bolder">${escapeHtml(product.name)}</h5>

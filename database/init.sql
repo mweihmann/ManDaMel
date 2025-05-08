@@ -50,6 +50,7 @@ CREATE TABLE products (
     image BLOB,
     file_path VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    active TINYINT(1) NOT NULL DEFAULT 1,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
