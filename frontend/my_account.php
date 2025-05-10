@@ -1,7 +1,9 @@
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-5">
-    <h2>Your Orders</h2>
+    <div id="account-details">
+        <p>Loading your account details...</p>
+    </div>
     <div id="order-container">
         <p>Loading your orders...</p>
     </div>

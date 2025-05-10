@@ -17,7 +17,7 @@ $(document).ready(function () {
         if (role === 'admin') {
             links = `
                 <li><a class="dropdown-item" href="manage_products.php">Edit Products</a></li>
-                <li><a class="dropdown-item" href="manage_customers.php">Edit Customers</a></li>
+                <li><a class="dropdown-item" href="manage_accounts.php">Edit Customers</a></li>
                 <li><a class="dropdown-item" href="manage_vouchers.php">Edit Vouchers</a></li>
                 <li><a class="dropdown-item" href="#" id="logout-link">Logout</a></li>
             `;

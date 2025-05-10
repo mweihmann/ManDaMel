@@ -14,6 +14,8 @@ function authenticate() {
     $authHeader = $headers['Authorization'] ?? '';
 
     if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+        header("Access-Control-Allow-Origin: http://localhost:3000");
+        header("Content-Type: application/json");
         http_response_code(401);
         echo json_encode(['message' => 'Access denied. No token provided.']);
         exit;
@@ -25,6 +27,8 @@ function authenticate() {
         $decoded = JWT::decode($jwt, new Key($_ENV['JWT_SECRET'], 'HS256'));
         return $decoded->data;
     } catch (Exception $e) {
+        header("Access-Control-Allow-Origin: http://localhost:3000");
+        header("Content-Type: application/json");
         http_response_code(401);
         echo json_encode(['message' => 'Access denied. Invalid token.', 'error' => $e->getMessage()]);
         exit;
