@@ -1,4 +1,4 @@
-<?php include '../includes/header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 
 <div class="login-box">
@@ -22,4 +22,4 @@
 </div>
 
 
-<?php include '../includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

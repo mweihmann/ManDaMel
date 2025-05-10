@@ -1,4 +1,4 @@
-<?php include '../includes/header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 <div class="container auth-form-container">
     <div class="w-100" style="max-width: 500px;">
@@ -97,4 +97,4 @@
 
 
 
-<?php include '../includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

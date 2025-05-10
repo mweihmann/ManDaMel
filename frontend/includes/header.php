@@ -21,7 +21,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5 d-flex align-items-center justify-content-between">
         <!-- Logo -->
-        <a href="../pages/index.php" class="d-flex align-items-center">
+        <a href="index.php" class="d-flex align-items-center">
             <img src="../images/logo.png" alt="Logo" class="logo-img me-3" />
         </a>
 

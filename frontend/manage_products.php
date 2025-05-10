@@ -1,6 +1,6 @@
-<?php include '../includes/header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
-<h1 class="text-center my-4">Admin Dashboard</h1>
+<h1 class="text-center my-4">Product Dashboard</h1>
 
 <!-- Produktliste -->
 <section class="container mb-5">
@@ -78,4 +78,4 @@ function previewImage(event) {
 
 <script src="../js/admin.js"></script>
 
-<?php include '../includes/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
