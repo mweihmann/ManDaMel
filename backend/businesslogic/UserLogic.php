@@ -117,29 +117,53 @@ class UserLogic
     } 
 
     /**
-     * Update user data (for admin purposes)
+     * Find user by ID (for admin purposes)
      */
-    public function updateUser(array $data): bool
+    public function findUserById(int $id): ?array
     {
         global $pdo;
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+
+    /**
+     * Update user data (for user account update)
+     */
+    public function updateAccount(int $userId, array $data, bool $isAdmin = false): bool
+    {
+        global $pdo;
+
+        $fields = [
+            'email' => $data['email'],
+            'telephone' => $data['telephone'],
+            'city' => $data['city'],
+            'postal_code' => $data['postal_code'],
+            'country' => $data['country'],
+            'street' => $data['street'],
+            'house_number' => $data['house_number'],
+            'given_name' => $data['given_name'],
+            'surname' => $data['surname'],
+            'pronouns' => $data['pronouns']
+        ];
     
-        if (!isset($data['id'])) {
-            throw new InvalidArgumentException('User ID is required to update user.');
+        if ($isAdmin) {
+            $fields['role'] = $data['role'];
+            $fields['user_state'] = $data['user_state'];
         }
     
+        $setString = implode(', ', array_map(fn($key) => "$key = :$key", array_keys($fields)));
+    
         $stmt = $pdo->prepare("
-            UPDATE users SET
-                username = :username,
-                given_name = :given_name,
-                surname = :surname,
-                email = :email,
-                role = :role,
-                user_state = :user_state
+            UPDATE users SET $setString
             WHERE id = :id
         ");
     
-        $stmt->execute($data);
-        return $stmt->rowCount() > 0;
-    } 
+        $fields['id'] = $userId;
+        return $stmt->execute($fields);
+    }
+
+
 }
 
