@@ -41,4 +41,13 @@ class PaymentLogic
             'holder_name' => $data['holder_name'] ?? null,
         ]);
     }
+
+    public function getMethodsByUserId(int $userId): array
+    {
+        global $pdo;
+        $stmt = $pdo->prepare("SELECT * FROM payment_info WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
