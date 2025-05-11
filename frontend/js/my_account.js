@@ -82,8 +82,26 @@ $(document).ready(function () {
               </div>
             </div>
           </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingPayment">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment" aria-expanded="false" aria-controls="collapsePayment">
+                💳 Manage Payment Methods
+              </button>
+            </h2>
+            <div id="collapsePayment" class="accordion-collapse collapse" aria-labelledby="headingPayment" data-bs-parent="#accountAccordion">
+              <div class="accordion-body" id="payment-section">
+                <h5>Add New Payment Method</h5>
+                <div id="payment-form-container"></div>
+                <hr>
+              </div>
+            </div>
+          </div>
         </div>
       `);
+
+      loadPaymentMethods(token);
+      setupPaymentForm(token);
 
       $('#account-form').on('submit', function (e) {
         e.preventDefault();
@@ -115,6 +133,7 @@ $(document).ready(function () {
           }
         });
       });
+
     },
     error: function (xhr, status, error) {
       console.error('AJAX error:', status, error);
@@ -235,4 +254,123 @@ $(document).ready(function () {
       $('#order-container').html('<p class="text-danger">Could not load orders. Please log in again.</p>');
     }
   });
+
+  function loadPaymentMethods(token) {
+    $.ajax({
+      url: 'http://localhost:5000/api/get_payment_info.php',
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      success: function (methods) {
+        if (!methods || methods.length === 0) {
+          $('#payment-methods').html('<p>No payment methods saved yet.</p>');
+          return;
+        }
+
+        let html = '<ul class="list-group">';
+        methods.forEach(method => {
+          html += '<li class="list-group-item">';
+          html += `<strong>Type:</strong> ${method.method}<br>`;
+
+          if (method.method === 'creditcard') {
+            html += `Card: **** **** **** ${method.creditcard_number.slice(-4)} (exp: ${method.creditcard_expiry})`;
+          } else if (method.method === 'iban') {
+            html += `IBAN: ${method.iban}`;
+          } else if (method.method === 'voucher') {
+            html += `Voucher: ${method.voucher_code}`;
+          }
+
+          html += `</li>`;
+        });
+        html += '</ul>';
+
+        $('#payment-methods').html(html);
+      },
+      error: function () {
+        $('#payment-methods').html('<p class="text-danger">Failed to load payment methods.</p>');
+      }
+    });
+  }
+
+  function setupPaymentForm(token) {
+    $('#payment-form-container').append(`
+      <div class="mt-5">
+        <form id="payment-form">
+          <div class="mb-3">
+            <label>Method</label>
+            <select name="method" class="form-select">
+              <option value="creditcard">Credit Card</option>
+              <option value="iban">IBAN</option>
+            </select>
+          </div>
+
+          <div id="payment-fields"></div>
+
+          <div class="mb-3">
+            <label>Holder Name</label>
+            <input type="text" name="holder_name" class="form-control">
+          </div>
+
+          <button type="submit" class="btn btn-success">Add Payment Method</button>
+          <div id="payment-msg" class="mt-2"></div>
+        </form>
+        <hr>
+        <h5>Saved Payment Methods</h5>
+        <div id="payment-methods"></div>
+      </div>
+    `);
+
+    const $fields = $('#payment-fields');
+    $('select[name="method"]').on('change', function () {
+      const method = $(this).val();
+      $fields.html('');
+
+      if (method === 'creditcard') {
+        $fields.html(`
+          <div class="mb-3"><label>Card Number</label><input name="creditcard_number" class="form-control"></div>
+          <div class="mb-3"><label>Expiry (MM/YYYY)</label><input name="creditcard_expiry" class="form-control"></div>
+          <div class="mb-3"><label>CVV</label><input name="creditcard_cvv" class="form-control"></div>
+        `);
+      } else if (method === 'iban') {
+        $fields.html(`<div class="mb-3"><label>IBAN</label><input name="iban" class="form-control"></div>`);
+      } else if (method === 'voucher') {
+        $fields.html(`<div class="mb-3"><label>Voucher Code</label><input name="voucher_code" class="form-control"></div>`);
+      }
+    }).trigger('change');
+
+    $('#payment-form').on('submit', function (e) {
+      e.preventDefault();
+
+      const formData = {
+        method: $('select[name="method"]').val(),
+        creditcard_number: $('input[name="creditcard_number"]').val(),
+        creditcard_expiry: $('input[name="creditcard_expiry"]').val(),
+        creditcard_cvv: $('input[name="creditcard_cvv"]').val(),
+        iban: $('input[name="iban"]').val(),
+        voucher_code: $('input[name="voucher_code"]').val(),
+        holder_name: $('input[name="holder_name"]').val(),
+      };
+
+      $.ajax({
+        url: 'http://localhost:5000/api/add_payment_method.php',
+        method: 'POST',
+        contentType: 'application/json',
+        headers: { 'Authorization': `Bearer ${token}` },
+        data: JSON.stringify(formData),
+        success: function (res) {
+          if (res.success) {
+            $('#payment-msg').text('Payment method added.').addClass('text-success').removeClass('text-danger');
+            loadPaymentMethods(token);
+          } else {
+            $('#payment-msg').text('Failed to add.').addClass('text-danger').removeClass('text-success');
+          }
+        },
+        error: function () {
+          $('#payment-msg').text('Server error.').addClass('text-danger');
+        }
+      });
+    });
+  }
+
 });
