@@ -1,19 +1,53 @@
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('product-search');
-    const hasSearch = !!searchInput;
+    const filterForm = document.getElementById("filterForm");
+    const searchForm = document.querySelector('form[role="search"]');
 
-    if (hasSearch) {
-        searchInput.addEventListener('input', () => {
-            const query = searchInput.value.trim();
-            fetchProducts(query);
+    // Suchformular-Absenden verhindern
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
         });
     }
 
-    fetchProducts(); // initialer Abruf
+    // Live-Suche aktivieren
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim();
+            const formData = new FormData(filterForm);
+            fetchProducts(query, formData);
+        });
+    }
+
+    // Filterformular verarbeiten
+    if (filterForm) {
+        filterForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const formData = new FormData(filterForm);
+            const query = searchInput?.value.trim() || '';
+            fetchProducts(query, formData);
+        });
+    }
+
+    // Initialer Abruf aller Produkte
+    fetchProducts();
 });
 
-function fetchProducts(query = '') {
-    fetch(`http://localhost:5000/api/product_data.php?search=${encodeURIComponent(query)}`)
+function fetchProducts(query = '', formData = null) {
+    let url = `http://localhost:5000/api/product_data.php?search=${encodeURIComponent(query)}`;
+
+
+    if (formData) {
+        const params = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+            if (value !== '') {
+                params.append(key, value);
+            }
+        }
+        url += '&' + params.toString();
+    }
+
+    fetch(url)
         .then(res => res.json())
         .then(products => {
             const productList = document.getElementById('product-list');
@@ -47,7 +81,7 @@ function fetchProducts(query = '') {
                                 ${renderStars(product.rating)}
                                 <div class="text-muted mb-1">${escapeHtml(product.description)}</div>
                                 <div class="fw-bold mt-2">
-                                     ${Number(product.price).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
+                                    ${Number(product.price).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
                                 </div>
                             </div>
                         </div>
