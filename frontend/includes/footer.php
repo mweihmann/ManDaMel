@@ -22,6 +22,9 @@
             echo '<script src="/js/products.js"></script>';
         } elseif ($currentPage === 'product_edit.php') {
             echo '<script src="/js/product_edit.js"></script>';
+        } elseif ($currentPage === 'manage_accounts.php') {
+            echo '<script src="/js/manage_accounts.js"></script>';
         }
+        
     ?>
 </html>

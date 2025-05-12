@@ -27,6 +27,12 @@ if (!$user || !password_verify($password, $user['password_hash'])) {
     exit;
 }
 
+if ($user['user_state'] !== 'active') {
+    http_response_code(403);
+    echo json_encode(['message' => 'Your account is inactive. Please contact support.']);
+    exit;
+}
+
 $payload = [
     'iss' => 'http://localhost',
     'aud' => 'http://localhost',

@@ -2,12 +2,14 @@ $(document).ready(function () {
     $('#loginForm').on('submit', async function (e) {
         e.preventDefault();
 
+        $('#login-error').text('');
+
         const login = $('#login').val().trim();
         const password = $('#password').val().trim();
         const remember = $('#remember').is(':checked');
 
         if (!login || !password) {
-            alert("Please enter both login and password.");
+            $('#login-error').text("Please enter both login and password.");
             return;
         }
 
@@ -32,13 +34,16 @@ $(document).ready(function () {
                 } else {
                     sessionStorage.setItem('jwt', response.token);
                 }
-                alert('Login successful!');
                 window.location.href = 'index.php';
             } else {
-                alert(response.message || 'Login failed.');
+                $('#login-error').text(response.message || 'Login failed.');
             }
         } catch (err) {
-            alert("Login error. Check console for details.");
+            let msg = 'Login failed. Please try again.';
+            if (err.responseJSON && err.responseJSON.message) {
+                msg = err.responseJSON.message;
+            }
+            $('#login-error').text(msg);
             console.error(err);
         }
     });

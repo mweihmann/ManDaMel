@@ -11,22 +11,28 @@ class UserLogic
     {
         global $pdo;
         $stmt = $pdo->query("
-            SELECT id, username, given_name, surname, email, role, user_state, created_at
+            SELECT 
+                id,
+                username,
+                pronouns,
+                given_name,
+                surname,
+                email,
+                telephone,
+                country,
+                city,
+                postal_code,
+                street,
+                house_number,
+                role,
+                user_state,
+                created_at
             FROM users
         ");
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return array_map(fn($row) => new User(
-            $row['id'],
-            $row['username'],
-            $row['given_name'],
-            $row['surname'],
-            $row['email'],
-            $row['role'],
-            $row['user_state'],
-            $row['created_at']
-        ), $results);
-    }
+    
+        return $results; // KEINE Mapping auf User-Klasse nötig, du nutzt assoziative Arrays
+    }    
 
     /**
      * Check if a user with the given username or email already exists
@@ -145,7 +151,11 @@ class UserLogic
             'house_number' => $data['house_number'],
             'given_name' => $data['given_name'],
             'surname' => $data['surname'],
-            'pronouns' => $data['pronouns']
+            'pronouns' => $data['pronouns'],
+            'username' => $data['username'],
+            // 'password_hash' => $data['password_hash'] ?? null,
+            // 'user_state' => $data['user_state'] ?? null,
+            // 'role' => $data['role'] ?? null,           
         ];
     
         if ($isAdmin) {
@@ -161,6 +171,7 @@ class UserLogic
         ");
     
         $fields['id'] = $userId;
+        file_put_contents('debug_update.log', print_r($fields, true));
         return $stmt->execute($fields);
     }
 
