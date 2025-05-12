@@ -17,6 +17,7 @@
             <label class="form-check-label" for="remember">Remember me</label>
         </div>
         <button type="submit" class="btn btn-orange w-100">Login</button>
+        <div id="login-error" class="text-danger mt-2"></div>
     </form>
     <p class="mt-3">Don't have an account? <a href="register.php">Register</a></p>
 </div>

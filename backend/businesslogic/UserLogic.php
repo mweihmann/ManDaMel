@@ -11,22 +11,28 @@ class UserLogic
     {
         global $pdo;
         $stmt = $pdo->query("
-            SELECT id, username, given_name, surname, email, role, user_state, created_at
+            SELECT 
+                id,
+                username,
+                pronouns,
+                given_name,
+                surname,
+                email,
+                telephone,
+                country,
+                city,
+                postal_code,
+                street,
+                house_number,
+                role,
+                user_state,
+                created_at
             FROM users
         ");
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return array_map(fn($row) => new User(
-            $row['id'],
-            $row['username'],
-            $row['given_name'],
-            $row['surname'],
-            $row['email'],
-            $row['role'],
-            $row['user_state'],
-            $row['created_at']
-        ), $results);
-    }
+    
+        return $results; // KEINE Mapping auf User-Klasse nötig, du nutzt assoziative Arrays
+    }    
 
     /**
      * Check if a user with the given username or email already exists
@@ -117,29 +123,58 @@ class UserLogic
     } 
 
     /**
-     * Update user data (for admin purposes)
+     * Find user by ID (for admin purposes)
      */
-    public function updateUser(array $data): bool
+    public function findUserById(int $id): ?array
     {
         global $pdo;
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+
+    /**
+     * Update user data (for user account update)
+     */
+    public function updateAccount(int $userId, array $data, bool $isAdmin = false): bool
+    {
+        global $pdo;
+
+        $fields = [
+            'email' => $data['email'],
+            'telephone' => $data['telephone'],
+            'city' => $data['city'],
+            'postal_code' => $data['postal_code'],
+            'country' => $data['country'],
+            'street' => $data['street'],
+            'house_number' => $data['house_number'],
+            'given_name' => $data['given_name'],
+            'surname' => $data['surname'],
+            'pronouns' => $data['pronouns'],
+            'username' => $data['username'],
+            // 'password_hash' => $data['password_hash'] ?? null,
+            // 'user_state' => $data['user_state'] ?? null,
+            // 'role' => $data['role'] ?? null,           
+        ];
     
-        if (!isset($data['id'])) {
-            throw new InvalidArgumentException('User ID is required to update user.');
+        if ($isAdmin) {
+            $fields['role'] = $data['role'];
+            $fields['user_state'] = $data['user_state'];
         }
     
+        $setString = implode(', ', array_map(fn($key) => "$key = :$key", array_keys($fields)));
+    
         $stmt = $pdo->prepare("
-            UPDATE users SET
-                username = :username,
-                given_name = :given_name,
-                surname = :surname,
-                email = :email,
-                role = :role,
-                user_state = :user_state
+            UPDATE users SET $setString
             WHERE id = :id
         ");
     
-        $stmt->execute($data);
-        return $stmt->rowCount() > 0;
-    } 
+        $fields['id'] = $userId;
+        file_put_contents('debug_update.log', print_r($fields, true));
+        return $stmt->execute($fields);
+    }
+
+
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../config/bootstrap.php';
-require_once __DIR__ . '/../../auth/AuthMiddleware.php';
+require_once __DIR__ . '/../../auth/auth.php';
 
 try {
     $user = authenticate();
