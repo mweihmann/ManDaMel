@@ -95,7 +95,7 @@ VALUES
         4,
         9.99,
         1,
-        'files/php_ebook.pdf',
+        'php_ebook.pdf',
         'php_image.png',
         1
     ),
@@ -105,7 +105,7 @@ VALUES
         5,
         19.99,
         2,
-        'files/task_app.zip',
+        'task_app.zip',
         'task_app.png',
         1
     ),
@@ -115,7 +115,7 @@ VALUES
         3,
         49.99,
         3,
-        'files/js_course.zip',
+        'js_course.zip',
         'js_kurs.png',
         1
     ),
@@ -125,7 +125,7 @@ VALUES
         2,
         6.99,
         1,
-        'files/html_guide.pdf',
+        'html_guide.pdf',
         'html.jpg',
         1
     ),
@@ -135,7 +135,7 @@ VALUES
         1,
         14.50,
         2,
-        'files/bugtracker.zip',
+        'bugtracker.zip',
         'bug.jpg',
         1
     ),
@@ -145,7 +145,7 @@ VALUES
         4,
         29.00,
         3,
-        'files/css_course.zip',
+        'css_course.zip',
         'css.jpg',
         1
     ),
@@ -155,7 +155,7 @@ VALUES
         5,
         12.90,
         1,
-        'files/mysql_crashkurs.pdf',
+        'mysql_crashkurs.pdf',
         'mysql.jpg',
         1
     ),
@@ -165,7 +165,7 @@ VALUES
         5,
         39.99,
         3,
-        'files/python_course.zip',
+        'python_course.zip',
         'python.jpg',
         1
     );
