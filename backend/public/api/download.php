@@ -37,7 +37,8 @@ try {
     }
 
     // Resolve and validate file path
-    $absolutePath = realpath(__DIR__ . '/../../' . $product['file_path']);
+    $filename = basename($product['file_path']);
+    $absolutePath = __DIR__ . '/../../uploads/files/' . $filename;
     if (!file_exists($absolutePath)) {
         http_response_code(404);
         echo json_encode(['message' => 'File not found']);

@@ -30,9 +30,9 @@ function fetchProducts(query = '') {
 
 
                 // Dynamisches Bild setzen
-                let productImage = 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg';
+                let productImage;
                 if (product.image && product.image.trim() !== '') {
-                    productImage = `/images/${product.image}`;
+                    productImage = `http://localhost:5000/uploads/images/${product.image}`;
                 }
 
                 col.innerHTML = `

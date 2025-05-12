@@ -28,6 +28,11 @@ COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # Enable Apache Rewrite Module (optional)
 RUN a2enmod rewrite
 
+RUN echo '<Directory /var/www/html/public>\n\
+    AllowOverride All\n\
+    Require all granted\n\
+</Directory>' >> /etc/apache2/apache2.conf
+
 # Set working directory
 WORKDIR /var/www/html
 
