@@ -11,7 +11,7 @@ $category = $_GET['category'] ?? '';
 $rating = $_GET['rating'] ?? '';
 $search = $_GET['search'] ?? '';
 
-$sql = "SELECT * FROM products WHERE 1=1";
+$sql = "SELECT * FROM products WHERE active = 1";
 $params = [];
 
 if ($category !== '') {
