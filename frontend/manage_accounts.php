@@ -1,6 +1,8 @@
 <?php include 'includes/header.php'; ?>
 
-
-<script src="../js/xxxx.js"></script>
+<div class="container mt-5">
+    <h2>User Management</h2>
+    <div id="admin-user-list"></div>
+</div>
 
 <?php include 'includes/footer.php'; ?>
