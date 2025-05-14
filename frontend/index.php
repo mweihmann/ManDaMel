@@ -22,15 +22,15 @@
                 </select>
             </div>
             <div class="col-md-3">
-    <select name="rating" class="form-select">
-        <option value="">Bewertung auswählen</option>
-        <option value="5">★★★★★</option>
-        <option value="4">★★★★☆</option>
-        <option value="3">★★★☆☆</option>
-        <option value="2">★★☆☆☆</option>
-        <option value="1">★☆☆☆☆</option>
-    </select>
-</div>
+                <select name="rating" class="form-select">
+                    <option value="">Bewertung auswählen</option>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+            </div>
 
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary w-100">Filtern</button>
