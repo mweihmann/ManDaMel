@@ -70,7 +70,7 @@ function fetchProducts(query = '', formData = null) {
                 }
 
                 col.innerHTML = `
-                    <div class="card h-100">
+                    <div class="card h-100 data-draggable-product data-product-id="${product.id}">
                         ${product.rating >= 5 ? '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Top</div>' : ''}
                         <div class="ratio ratio-4x3">
                             <img src="${productImage}" alt="${escapeHtml(product.name)}" class="card-img-top object-fit-cover">
@@ -87,8 +87,8 @@ function fetchProducts(query = '', formData = null) {
                         </div>
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="product.php?id=${product.id}">
-                                    Show details
+                                <a class="btn btn-outline-dark add-to-cart" data-product-id="${product.id}">
+                                    Add to the Cart
                                 </a>
                             </div>
                         </div>
