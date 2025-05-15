@@ -58,7 +58,7 @@ async function addToCart(productId, quantity = 1) {
         if (data.status === 'success') {
             updateCartBadge(data.count || 1);
             await loadCartCount();
-            renderCartSidebar(data.items);
+            await renderCartSidebar();
         } else {
             alert(data.message || 'Fehler beim Hinzufügen zum Warenkorb.');
         }
@@ -168,7 +168,16 @@ async function renderCartSidebar(items = null) {
         });
         html += '</ul>';
 
-        container.innerHTML = html + '<a href="checkout.php" class="btn btn-primary w-100">Zur Kasse</a>';
+        if (jwt) {
+            container.innerHTML = html + '<a href="checkout.php" class="btn btn-primary w-100">Zur Kasse</a>';
+        } else {
+            container.innerHTML = html + `
+                <p class="text-center text-muted mt-3">
+                    Please <a href="login.php" class="fw-bold">login</a>, to checkout.
+                </p>
+            `;
+        }
+        
     } catch (err) {
         console.error('Fehler beim Anzeigen des Warenkorbs:', err);
     }
