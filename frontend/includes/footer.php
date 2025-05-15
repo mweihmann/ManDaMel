@@ -20,12 +20,14 @@
             echo '<script src="/js/login.js"></script>';
         } elseif ($currentPage === 'index.php') {
             echo '<script src="/js/products.js"></script>';
-        } elseif ($currentPage === 'product_edit.php') {
-            echo '<script src="/js/product_edit.js"></script>';
+        } elseif ($currentPage === 'manage_products.php') {
+            echo '<script src="/js/manage_products.js"></script>';
         } elseif ($currentPage === 'manage_accounts.php') {
             echo '<script src="/js/manage_accounts.js"></script>';
         } elseif ($currentPage === 'checkout.php') {
             echo '<script src="/js/checkout.js"></script>';
-        } 
+        } elseif ($currentPage === 'manage_vouchers.php') {
+            echo '<script src="/js/manage_vouchers.js"></script>';
+        }
     ?>
 </html>
