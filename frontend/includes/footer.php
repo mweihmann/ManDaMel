@@ -26,6 +26,10 @@
             echo '<script src="/js/manage_accounts.js"></script>';
         } elseif ($currentPage === 'checkout.php') {
             echo '<script src="/js/checkout.js"></script>';
-        } 
+        } elseif ($currentPage === 'manage_vouchers.php') {
+            echo '<script src="/js/manage_vouchers.js"></script>';
+        // } elseif ($currentPage === 'product.php') {
+        //     echo '<script src="/js/product.js"></script>';
+        }
     ?>
 </html>
