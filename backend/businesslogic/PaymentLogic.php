@@ -50,4 +50,18 @@ class PaymentLogic
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAvailablePaymentMethods(int $userId): array {
+        global $pdo;
+        $stmt = $pdo->prepare("
+            SELECT id, method, 
+                   RIGHT(creditcard_number, 4) AS cc_last, 
+                   iban, 
+                   voucher_code 
+            FROM payment_info 
+            WHERE user_id = ?
+        ");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }    
+
 }

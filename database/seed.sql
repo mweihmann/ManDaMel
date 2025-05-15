@@ -173,8 +173,8 @@ VALUES
 INSERT INTO
     vouchers (code, value, expires_at)
 VALUES
-    ('A1B2C', 25.00, '2026-04-15 17:34:33'),
-    ('D3E4F', 10.00, '2026-04-15 17:34:33');
+    ('A1B2C', 25.00, '2026-06-15 17:34:33'),
+    ('D3E4F', 10.00, '2026-06-15 17:34:33');
 
 INSERT INTO
     promo_codes (code, discount, type, expires_at, usage_limit)
@@ -183,10 +183,10 @@ VALUES
         'WELCOME10',
         10.00,
         'percentage',
-        '2026-04-15 17:34:33',
+        '2026-06-15 17:34:33',
         100
     ),
-    ('SAVE5', 5.00, 'fixed', '2026-04-15 17:34:33', 50);
+    ('SAVE5', 5.00, 'fixed', '2026-06-15 17:34:33', 50);
 
 INSERT INTO
     orders (
