@@ -130,6 +130,8 @@ async function loadCartCount() {
 async function renderCartSidebar(items = null) {
     try {
         const jwt = getJwtToken();
+        let total = 0;
+        
         if (!items) {
             const res = await fetch('http://localhost:5000/api/cart_get.php', {
                 headers: {
@@ -139,6 +141,9 @@ async function renderCartSidebar(items = null) {
             });
             const data = await res.json();
             items = data.items || [];
+            total = data.total || 0;
+        } else {
+            total = items.reduce((sum, item) => sum + item.quantity * parseFloat(item.price), 0);
         }
 
         const container = document.getElementById('cartSidebarBody');
@@ -168,6 +173,13 @@ async function renderCartSidebar(items = null) {
         });
         html += '</ul>';
 
+        html += `
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <strong>Gesamt:</strong>
+                    <span>${total.toFixed(2)} €</span>
+                </div>
+            `;
+
         if (jwt) {
             container.innerHTML = html + '<a href="checkout.php" class="btn btn-primary w-100">Zur Kasse</a>';
         } else {
@@ -179,7 +191,7 @@ async function renderCartSidebar(items = null) {
         }
         
     } catch (err) {
-        console.error('Fehler beim Anzeigen des Warenkorbs:', err);
+        console.error('Error showing the cart:', err);
     }
 }
 
