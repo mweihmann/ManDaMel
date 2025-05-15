@@ -82,5 +82,11 @@ class ProductLogic {
         ]);
     }
     
+    public function findById(int $id): ?array {
+        global $pdo;
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
     
 }
