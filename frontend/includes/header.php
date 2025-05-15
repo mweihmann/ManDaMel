@@ -39,7 +39,7 @@
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button> -->
-                <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar">
+                <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" id="cart-icon-dropzone">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
