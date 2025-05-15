@@ -1,8 +1,13 @@
 <?php
 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 require_once __DIR__ . '/../../config/bootstrap.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../businesslogic/UserLogic.php';
+require_once __DIR__ . '/../../businesslogic/CartLogic.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -68,6 +73,15 @@ setcookie('refresh_token', $refresh_token, [
     'samesite' => 'Strict'
 ]);
 
+if (!empty($_SESSION['cart'])) {
+    $cartId = CartLogic::getOrCreateCartId($user['id']);
+
+    foreach ($_SESSION['cart'] as $item) {
+        CartLogic::addProduct($cartId, $item['id'], $item['quantity']);
+    }
+
+    unset($_SESSION['cart']); // Gast-Warenkorb entfernen
+}
 
 echo json_encode([
     'message' => 'Login successful',

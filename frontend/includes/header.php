@@ -34,7 +34,12 @@
         <!-- Cart & User -->
         <div class="d-flex align-items-center">
             <form class="d-flex me-3">
-                <button class="btn btn-outline-dark" type="submit">
+                <!-- <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </button> -->
+                <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" id="cart-icon-dropzone">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
@@ -51,3 +56,16 @@
         </div>
     </div>
 </nav>
+
+<!-- Offcanvas Cart Sidebar -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="cartSidebarLabel">Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Schließen"></button>
+    </div>
+    <div class="offcanvas-body" id="cartSidebarBody">
+        <!-- JS füllt Inhalte dynamisch -->
+    </div>
+</div>
+
+
