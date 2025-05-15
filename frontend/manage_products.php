@@ -81,6 +81,6 @@ function previewImage(event) {
 }
 </script>
 
-<script src="../js/admin.js"></script>
+<!-- <script src="../js/admin.js"></script> -->
 
 <?php include 'includes/footer.php'; ?>
