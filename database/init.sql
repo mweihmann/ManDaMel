@@ -62,25 +62,15 @@ CREATE TABLE vouchers (
     is_used BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE promo_codes (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    code VARCHAR(50) UNIQUE NOT NULL,
-    discount DECIMAL(10,2) NOT NULL,
-    type ENUM('fixed', 'percentage'),
-    expires_at DATETIME,
-    usage_limit INT
-);
-
 CREATE TABLE orders (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     payment_method ENUM('creditcard', 'iban', 'voucher'),
     total DECIMAL(10,2) NOT NULL,
-    promo_code_id INT,
     voucher_id INT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    invoice_number VARCHAR(20) DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (promo_code_id) REFERENCES promo_codes(id),
     FOREIGN KEY (voucher_id) REFERENCES vouchers(id)
 );
 
