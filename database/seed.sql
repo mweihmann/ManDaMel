@@ -28,7 +28,7 @@ VALUES
         'Germany',
         'Berlin',
         '10115',
-        'Hauptstraße',
+        'Hauptstrasse',
         '1A',
         'admin',
         'active',
@@ -44,7 +44,7 @@ VALUES
         'Germany',
         'Munich',
         '80331',
-        'Nebenstraße',
+        'Nebenstrasse',
         '99',
         'user',
         'active',
@@ -177,27 +177,15 @@ VALUES
     ('D3E4F', 10.00, '2026-06-15 17:34:33');
 
 INSERT INTO
-    promo_codes (code, discount, type, expires_at, usage_limit)
-VALUES
-    (
-        'WELCOME10',
-        10.00,
-        'percentage',
-        '2026-06-15 17:34:33',
-        100
-    ),
-    ('SAVE5', 5.00, 'fixed', '2026-06-15 17:34:33', 50);
-
-INSERT INTO
     orders (
         user_id,
         payment_method,
         total,
-        promo_code_id,
-        voucher_id
+        voucher_id,
+        invoice_number
     )
 VALUES
-    (2, 'creditcard', 49.99, 1, NULL);
+    (2, 'creditcard', 49.99, 1, NULL, 123456789),
 
 INSERT INTO
     order_items (order_id, product_id, price)

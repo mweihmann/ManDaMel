@@ -171,6 +171,11 @@ $(document).ready(function () {
                   Download
                 </button>
               </td>
+              <td>
+                <button class="btn btn-outline-secondary btn-sm invoice-btn" data-order-id="${order.id}">
+                  📄 Print Invoice
+                </button>
+              </td>
             </tr>
           `;
         });
@@ -189,6 +194,7 @@ $(document).ready(function () {
                     <tr>
                       <th>Product</th>
                       <th>Download</th>
+                      <th>Invoice</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -372,5 +378,32 @@ $(document).ready(function () {
       });
     });
   }
+
+  $('body').on('click', '.invoice-btn', function () {
+    const orderId = $(this).data('order-id');
+  
+    fetch(`http://localhost:5000/api/generate_invoice.php?order_id=${orderId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Fehler beim Generieren der Rechnung');
+      return res.blob();
+    })
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Rechnung_Order_${orderId}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    })
+    .catch(err => alert('Fehler beim Download der Rechnung.'));
+  });
+  
 
 });
