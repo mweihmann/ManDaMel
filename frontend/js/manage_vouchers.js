@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // JWT Token abrufen
     const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
     if (!token) return location.href = 'login.php';
 
+    // DOM-Elemente abrufen
     const list = document.getElementById('voucher-list');
     const modal = new bootstrap.Modal(document.getElementById('voucherModal'));
     const form = document.getElementById('voucher-form');
 
+    // Gutscheincode generieren
     document.getElementById('generate-code-btn')?.addEventListener('click', () => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let code = '';
@@ -15,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         form['voucher-code'].value = code;
     });
 
+    // Gutscheine laden
     function loadVouchers() {
         fetch('http://localhost:5000/api/manage_vouchers.php', {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -27,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (v.is_used) badge = '<span class="badge bg-secondary ms-2">Used</span>';
                     else if (v.expired) badge = '<span class="badge bg-warning text-dark ms-2">Expired</span>';
 
+                    // Einzelnen Gutschein anzeigen
                     list.innerHTML += `
                         <li class="list-group-item d-flex justify-content-between align-items-center ${v.is_used || v.expired ? 'opacity-75' : ''}">
                             <div>
@@ -48,12 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // Neuer Gutschein – Modal öffnen
     document.getElementById('create-btn').addEventListener('click', () => {
         form.reset();
         form['voucher-id'].value = '';
         modal.show();
     });
 
+    // Gutschein speichern (neu oder bearbeiten)
     form.addEventListener('submit', async e => {
         e.preventDefault();
         const id = form['voucher-id'].value;
@@ -64,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             expires_at: form['voucher-expiry'].value
         };
 
-        const method = id ? 'PUT' : 'POST';
+        const method = id ? 'PUT' : 'POST'; // PUT = bearbeiten, POST = neu
 
         await fetch('http://localhost:5000/api/manage_vouchers.php', {
             method,
@@ -79,7 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
         loadVouchers();
     });
 
+    // Bearbeiten oder als benutzt markieren
     list.addEventListener('click', async e => {
+        // Bearbeiten
         if (e.target.classList.contains('edit-btn')) {
             form['voucher-id'].value = e.target.dataset.id;
             form['voucher-code'].value = e.target.dataset.code;
@@ -88,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.show();
         }
 
+        // Als benutzt markieren
         if (e.target.classList.contains('use-btn')) {
             const id = e.target.dataset.id;
             if (confirm('Do you really want to mark the voucher as used?')) {
@@ -104,5 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Initiale Gutscheine laden
     loadVouchers();
 });

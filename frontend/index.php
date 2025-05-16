@@ -4,6 +4,8 @@
 <section class="py-3 bg-light">
     <div class="container">
         <form id="filterForm" class="row g-3">
+
+            <!-- Sortieroptionen -->
             <div class="col-12 col-md-4">
                 <select name="sort_by" class="form-select">
                     <option value="">Sort by</option>
@@ -13,6 +15,8 @@
                     <option value="rating_desc">Rating: High to Low</option>
                 </select>
             </div>
+
+            <!-- Kategorieauswahl -->
             <div class="col-12 col-md-3">
                 <select name="category_id" class="form-select">
                     <option value="">All Categories</option>
@@ -21,6 +25,8 @@
                     <option value="3">Courses</option>
                 </select>
             </div>
+
+            <!-- Bewertungsauswahl -->
             <div class="col-12 col-md-3">
                 <select name="rating" class="form-select">
                     <option value="">Select Rating</option>
@@ -32,6 +38,7 @@
                 </select>
             </div>
 
+            <!-- Filter-Button -->
             <div class="col-12 col-md-2">
                 <button type="submit" class="btn btn-primary w-100">Filter</button>
             </div>
@@ -48,7 +55,7 @@
     </div>
 </section>
 
-<!-- JS -->
+<!-- JavaScript für Produktsuche -->
 <script src="../js/products.js"></script>
 
 <?php include 'includes/footer.php'; ?>

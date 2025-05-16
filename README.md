@@ -1,8 +1,3 @@
-To-Do
-
-Alles auf English umschreiben
-Produktfiles hinzufügen
-
 # 🛍️ ManDaMel Digital Shop
 
 This project is a **PHP-based digital shop** with a **MySQL backend** running inside Docker. It allows users to browse and purchase digital products.
@@ -12,59 +7,54 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 ## 🏗️ **Project Structure**
 
 ```
-📁 ManDaMel                            -- Root project folder
+📁 MANDAMEL                             -- Root project folder
 │
-├── 📁 backend                         -- PHP backend application
-│   ├── 📁 .devcontainer               -- VS Code dev container for backend
-│   │   ├── 📄 devcontainer.json       -- Dev container configuration for VS Code
-│   │   ├── 🐘 Dockerfile              -- Dockerfile to set up backend environment
-│   │   └── ⚙️ xdebug.ini              -- Xdebug config for backend container
-│   ├── 📁 .vscode
-│   │   └── 🐞 launch.json             -- VS Code launch config for Xdebug
-│   ├── 📁 businesslogic
-│   │   └── 👤 UserLogic.php           -- Business logic for handling user data
-│   ├── 📁 config
-│   │   ├── 🧩 bootstrap.php           -- App bootstrapper for setup
-│   │   └── 🗃️ db.php                  -- MySQL connection setup
-│   ├── 📁 models
-│   │   └── 👤 User.php                -- User model representing DB structure
-│   ├── 📁 public                      -- Public web root (exposed to Apache)
-│   │   ├── 📁 api
-│   │   │   └── 🔌 serviceHandler.php  -- API endpoint to handle AJAX calls
-│   │   ├── 📦 vendor                  -- Autoloaded dependencies (Composer)
-│   │   ├── 📄 composer.json           -- Composer dependencies config
-│   │   ├── 🧪 debug-test.php          -- Simple PHP file for debugging Xdebug
-│   │   └── 📄 index.php               -- Entry point for public/backend frontend
-│   ├── 🧾 .env.example                -- Environment variables
-│   ├── 📄 composer.json               -- Main composer configuration
-│   ├── 📦 composer.lock               -- Locked composer dependencies
-│   └── 🔌 datahandler.php             -- Alternate API handler
+├── 📁 .github                          -- GitHub workflows and configurations
 │
-├── 📁 database                        -- SQL initialization for MySQL
-│   ├── 🧱 init.sql                    -- SQL schema definition
-│   └── 🌱 seed.sql                    -- Insert demo/seed data
+├── 📁 backend                          -- PHP backend application
+│   ├── 📁 .devcontainer                -- Dev container config (VS Code)
+│   ├── 📁 .vscode                      -- Debug configuration for VS Code
+│   ├── 📁 auth                         -- Authentication logic & middleware
+│   ├── 📁 businesslogic                -- Business rules for cart, users, products, etc.
+│   ├── 📁 config                       -- Config files (bootstrap, DB connection)
+│   ├── 📁 models                       -- PHP models for database mapping
+│   ├── 📁 public                       -- Publicly accessible API endpoints (e.g. login, register)
+│   ├── 📁 uploads\files                -- Uploaded product files (PDFs, ZIPs)
+│   ├── 📦 vendor                       -- Composer dependencies (auto-generated)
+│   ├── ⚙️ .env                         -- Environment variables (not versioned)
+│   ├── ⚙️ .env.example                 -- Example environment file
+│   ├── 📄 composer.json               -- Dependency declarations
+│   ├── 📄 composer.lock               -- Dependency lock file
+│   └── 🔌 datahandler.php              -- Generic data handler (optional)
 │
-├── 📁 frontend                        -- Frontend application
-│   ├── 📁 .devcontainer               -- VS Code dev container for frontend
-│   │   ├── 📄 devcontainer.json       -- Dev container setup for frontend
-│   │   ├── 🐘 Dockerfile              -- Dockerfile for frontend container
-│   │   └── ⚙️ xdebug.ini              -- Optional frontend Xdebug config
-│   ├── 📁 .vscode
-│   │   └── 🐞 launch.json             -- Xdebug launch config for frontend
-│   ├── 📁 css
-│   │   └── 💅 style.css               -- CSS styles
-│   ├── 📁 js                          -- Placeholder for JavaScript files
-│   ├── ⚙️ config.php                  -- Frontend config logic (PHP)
-│   ├── 🧾 index.php                   -- Main frontend file that loads data
-│   ├── 🧾 index2.php                  -- Alternative frontend layout or version (should be deleted)
-│   └── 📝 register.php                -- Register form or placeholder
+├── 📁 database                         -- SQL & DBML files
+│   ├── 🧱 init.sql                    -- Initial DB schema
+│   ├── 🌱 seed.sql                    -- Optional: seed data
+│   └── 🧩 mandamel.dbml               -- DBML model (for visualization)
 │
-├── 🧩 .code-workspace                 -- VS Code workspace file
-├── 📄 .gitignore                      -- Git ignore rules (node_modules, vendor, env, IDE files, etc.)
-├── 🐳 docker-compose.yml              -- Defines all containers and services
-├── 🍎 MACOS_START.sh                  -- Startup script for macOS
-├── 🪟 WINDOWS_START.ps1               -- Startup script for Windows
-└── 📖 README.md                       -- Project documentation (this file)
+├── 📁 frontend                         -- Frontend PHP application
+│   ├── 📁 .devcontainer                -- Frontend dev container (VS Code)
+│   ├── 📁 .vscode                      -- Debugging configs
+│   ├── 📁 css                          -- Custom styles
+│   ├── 📁 includes                     -- Header/Footer includes
+│   ├── 📁 js                           -- JavaScript modules (AJAX, events, etc.)
+│   ├── 📄 checkout.php                -- Checkout page
+│   ├── 📄 config.php                  -- Frontend configuration
+│   ├── 📄 index.php                   -- Start page
+│   ├── 📄 login.php                   -- Login form
+│   ├── 📄 manage_accounts.php        -- Admin: manage user accounts
+│   ├── 📄 manage_products.php        -- Admin: manage products
+│   ├── 📄 manage_vouchers.php        -- Admin: manage vouchers
+│   ├── 📄 my_account.php             -- User profile page
+│   ├── 📄 product.php                -- Product details
+│   └── 📄 register.php               -- Registration page
+│
+├── 🧩 .code-workspace                  -- VS Code workspace settings
+├── 📄 .gitignore                       -- Git ignored files & folders
+├── 🐳 docker-compose.yml              -- Docker configuration
+├── 🍎 MACOS_START.sh                  -- Startup script (macOS)
+├── 🪟 WINDOWS_START.ps1               -- Startup script (Windows)
+└── 📖 README.md                        -- This documentation file
 ```
 
 ## ✅ Prerequisites
