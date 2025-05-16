@@ -74,6 +74,7 @@ $(document).ready(function () {
                       <div class="mb-3"><label>Postal Code</label><input type="text" class="form-control" name="postal_code" value="${user.postal_code}"></div>
                       <div class="mb-3"><label>Street</label><input type="text" class="form-control" name="street" value="${user.street}"></div>
                       <div class="mb-3"><label>House Number</label><input type="text" class="form-control" name="house_number" value="${user.house_number}"></div>
+                      <div class="mb-3"><label>Current Password (required for update)</label><input type="password" class="form-control" name="current_password" required></div>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
@@ -117,7 +118,8 @@ $(document).ready(function () {
           house_number: $('input[name="house_number"]').val(),
           given_name: $('input[name="given_name"]').val(),
           surname: $('input[name="surname"]').val(),
-          pronouns: $('input[name="pronouns"]').val()
+          pronouns: $('input[name="pronouns"]').val(),
+          current_password: $('input[name="current_password"]').val()
         };
 
         $.ajax({

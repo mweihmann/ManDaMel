@@ -17,19 +17,19 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │   ├── 📁 .vscode
 │   │   └── 🐞 launch.json             -- VS Code launch config for Xdebug
 │   ├── 📁 businesslogic
-│   │   └── 👤 UserLogic.php           -- Business logic for handling user data
+│   │   └── 👤 xxxLogic.php            -- Placeholder for all Business logic files
 │   ├── 📁 config
 │   │   ├── 🧩 bootstrap.php           -- App bootstrapper for setup
 │   │   └── 🗃️ db.php                  -- MySQL connection setup
+│   ├── 📁 lib
+│   │   └── 📁 fpdf                    -- All FPDF files for crteating pdf invoices
 │   ├── 📁 models
-│   │   └── 👤 User.php                -- User model representing DB structure
+│   │   └── 👤 xxxx.php                -- Placeholder for all model files representing the DB structure
 │   ├── 📁 public                      -- Public web root (exposed to Apache)
 │   │   ├── 📁 api
-│   │   │   └── 🔌 serviceHandler.php  -- API endpoint to handle AJAX calls
+│   │   │   └── 🔌 xxxx.php            -- Placeholder for all API endpoints
 │   │   ├── 📦 vendor                  -- Autoloaded dependencies (Composer)
-│   │   ├── 📄 composer.json           -- Composer dependencies config
-│   │   ├── 🧪 debug-test.php          -- Simple PHP file for debugging Xdebug
-│   │   └── 📄 index.php               -- Entry point for public/backend frontend
+│   │   └── 📄 composer.json           -- Composer dependencies config
 │   ├── 🧾 .env.example                -- Environment variables
 │   ├── 📄 composer.json               -- Main composer configuration
 │   ├── 📦 composer.lock               -- Locked composer dependencies
@@ -37,6 +37,7 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │
 ├── 📁 database                        -- SQL initialization for MySQL
 │   ├── 🧱 init.sql                    -- SQL schema definition
+│   ├── 🧱 manda.dbml                   -- SQL DB Visualisation
 │   └── 🌱 seed.sql                    -- Insert demo/seed data
 │
 ├── 📁 frontend                        -- Frontend application
@@ -49,10 +50,9 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │   ├── 📁 css
 │   │   └── 💅 style.css               -- CSS styles
 │   ├── 📁 js                          -- Placeholder for JavaScript files
-│   ├── ⚙️ config.php                  -- Frontend config logic (PHP)
 │   ├── 🧾 index.php                   -- Main frontend file that loads data
-│   ├── 🧾 index2.php                  -- Alternative frontend layout or version (should be deleted)
-│   └── 📝 register.php                -- Register form or placeholder
+│   ├── 🧾 xxxx.php                    -- Placeholder for all .php frontend files
+│   └── 📝 register.php                -- Register form 
 │
 ├── 🧩 .code-workspace                 -- VS Code workspace file
 ├── 📄 .gitignore                      -- Git ignore rules (node_modules, vendor, env, IDE files, etc.)
@@ -99,6 +99,10 @@ Copy-Item .env.example .env
 cp .env.example .env
 ```
 
+### With PHP Debugging (not necessary)
+
+- Comment in the lines `code ./frontend` and `code ./backend` inside of `WINDOWS_START.ps1` or `MACOS_START.sh`
+
 ### Windows
 
 1. Open PowerShell as Administrator
@@ -122,13 +126,13 @@ chmod +x MACOS_START.sh
 
 ---
 
-### After
+### Debugging (only for debugging)
 
 > ⚠️ If you have limited RAM/CPU: open backend and frontend containers **one after the other**.
 
-3. Open **VS Code** in the `backend` and/or `frontend` folders
-4. Use Command Palette → **“Dev Containers: Reopen in Container”**
-5. Once loaded:
+1. Open **VS Code** in the `backend` and/or `frontend` folders
+2. Use Command Palette → **“Dev Containers: Reopen in Container”**
+3. Once loaded:
    - Open `.vscode/launch.json`
    - Press `F5` to start the debugger
 
@@ -137,7 +141,6 @@ chmod +x MACOS_START.sh
 ### 🌐 Access the Application
 
 - Backend: [http://localhost:5000](http://localhost:5000) 
-- API Test: [http://localhost:5000/api/serviceHandler.php?method=getAllUsers](http://localhost:5000/api/serviceHandler.php?method=getAllUsers) 
 - Frontend: [http://localhost:3000](http://localhost:3000)
 
 ---
