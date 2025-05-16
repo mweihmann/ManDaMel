@@ -6,6 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = new bootstrap.Modal(document.getElementById('voucherModal'));
     const form = document.getElementById('voucher-form');
 
+    document.getElementById('generate-code-btn')?.addEventListener('click', () => {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = '';
+        for (let i = 0; i < 5; i++) {
+            code += characters[Math.floor(Math.random() * characters.length)];
+        }
+        form['voucher-code'].value = code;
+    });
+
     function loadVouchers() {
         fetch('http://localhost:5000/api/manage_vouchers.php', {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -14,15 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 list.innerHTML = '<ul class="list-group">';
                 data.forEach(v => {
+                    let badge = '';
+                    if (v.is_used) badge = '<span class="badge bg-secondary ms-2">Used</span>';
+                    else if (v.expired) badge = '<span class="badge bg-warning text-dark ms-2">Expired</span>';
+
                     list.innerHTML += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <li class="list-group-item d-flex justify-content-between align-items-center ${v.is_used || v.expired ? 'opacity-75' : ''}">
                             <div>
-                                <strong>${v.code}</strong> — ${parseFloat(v.value).toFixed(2)} €
+                                <strong>${v.code}</strong> — ${parseFloat(v.value).toFixed(2)} € ${badge}
                                 <br><small>gültig bis: ${new Date(v.expires_at).toLocaleString()}</small>
                             </div>
                             <div>
-                                <button class="btn btn-sm btn-outline-primary me-2 edit-btn" data-id="${v.id}" data-code="${v.code}" data-value="${v.value}" data-expires="${v.expires_at}">Bearbeiten</button>
-                                <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${v.id}">Löschen</button>
+                                <button class="btn btn-sm btn-outline-primary me-2 edit-btn" data-id="${v.id}" data-code="${v.code}" data-value="${v.value}" data-expires="${v.expires_at}" ${v.is_used ? 'disabled' : ''}>
+                                    Edit
+                                </button>
+                                ${(!v.is_used && !v.expired) ? `
+                                    <button class="btn btn-sm btn-outline-warning use-btn" data-id="${v.id}">
+                                        Mark as used
+                                    </button>` : ''}
                             </div>
                         </li>`;
                 });
@@ -70,16 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.show();
         }
 
-        if (e.target.classList.contains('delete-btn')) {
+        if (e.target.classList.contains('use-btn')) {
             const id = e.target.dataset.id;
-            if (confirm('Diesen Gutschein wirklich löschen?')) {
+            if (confirm('Do you really want to mark the voucher as used?')) {
                 await fetch('http://localhost:5000/api/manage_vouchers.php', {
-                    method: 'DELETE',
+                    method: 'PATCH',
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/json'
                     },
-                    body: `id=${id}`
+                    body: JSON.stringify({ id })
                 });
                 loadVouchers();
             }
