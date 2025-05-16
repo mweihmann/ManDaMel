@@ -4,26 +4,26 @@
 <section class="py-3 bg-light">
     <div class="container">
         <form id="filterForm" class="row g-3">
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
                 <select name="sort_by" class="form-select">
-                    <option value="">Sortieren nach</option>
-                    <option value="price_asc">Preis aufsteigend</option>
-                    <option value="price_desc">Preis absteigend</option>
-                    <option value="rating_asc">Bewertung aufsteigend</option>
-                    <option value="rating_desc">Bewertung absteigend</option>
+                    <option value="">Sort by</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                    <option value="rating_asc">Rating: Low to High</option>
+                    <option value="rating_desc">Rating: High to Low</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-3">
                 <select name="category_id" class="form-select">
-                    <option value="">Alle Kategorien</option>
+                    <option value="">All Categories</option>
                     <option value="1">eBooks</option>
                     <option value="2">Software</option>
-                    <option value="3">Kurse</option>
+                    <option value="3">Courses</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-3">
                 <select name="rating" class="form-select">
-                    <option value="">Bewertung auswählen</option>
+                    <option value="">Select Rating</option>
                     <option value="5">★★★★★</option>
                     <option value="4">★★★★☆</option>
                     <option value="3">★★★☆☆</option>
@@ -32,8 +32,8 @@
                 </select>
             </div>
 
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Filtern</button>
+            <div class="col-12 col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
             </div>
         </form>
     </div>

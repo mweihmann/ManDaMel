@@ -1,3 +1,8 @@
+To-Do
+
+Alles auf English umschreiben
+Produktfiles hinzufügen
+
 # 🛍️ ManDaMel Digital Shop
 
 This project is a **PHP-based digital shop** with a **MySQL backend** running inside Docker. It allows users to browse and purchase digital products.
