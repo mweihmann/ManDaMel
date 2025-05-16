@@ -1,50 +1,71 @@
 <?php
+// Konfigurations- und Modellklassen einbinden
 require_once __DIR__ . '/../../config/bootstrap.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../businesslogic/UserLogic.php';
 
 use Firebase\JWT\JWT;
 
+// Eingehende JSON-Daten aus dem Request-Body dekodieren
 $data = json_decode(file_get_contents("php://input"), true);
 
-// Validation
+// -------------------
+// 1. Grundvalidierung
+// -------------------
+
+// Pflichtfelder definieren
 $required = ['pronouns', 'given_name', 'surname', 'email', 'username', 'password', 'confirm_password', 'postal_code', 'city', 'street', 'house_number'];
+
+// Prüfen, ob alle Pflichtfelder vorhanden sind
 foreach ($required as $field) {
     if (empty($data[$field])) {
-        http_response_code(400);
+        http_response_code(400); // Bad Request
         echo json_encode(['message' => "Field '$field' is required."]);
         exit;
     }
 }
 
+// E-Mail-Format validieren
 if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
     echo json_encode(['message' => "Invalid email address."]);
     exit;
 }
 
+// Passwortlänge prüfen
 if (strlen($data['password']) < 6) {
     http_response_code(400);
     echo json_encode(['message' => "Password must be at least 6 characters."]);
     exit;
 }
 
+// Passwörter vergleichen
 if ($data['password'] !== $data['confirm_password']) {
     http_response_code(400);
     echo json_encode(['message' => "Passwords do not match."]);
     exit;
 }
 
+// ----------------------------
+// 2. Prüfen ob User existiert
+// ----------------------------
+
 // Check user exists
 $userLogic = new UserLogic();
 if ($userLogic->userExists($data['username'], $data['email'])) {
-    http_response_code(409);
+    http_response_code(409); // Konflikt
     echo json_encode(['message' => "Username or email already in use."]);
     exit;
 }
 
-// Prepare data
+// -----------------------------
+// 3. Benutzerdaten vorbereiten
+// -----------------------------
+
+// Passwort hashen
 $hashed = password_hash($data['password'], PASSWORD_DEFAULT);
+
+// Neues Benutzerobjekt vorbereiten
 $user = [
     'username' => $data['username'],
     'pronouns' => $data['pronouns'],
@@ -60,7 +81,7 @@ $user = [
     'password_hash' => $hashed
 ];
 
-// Save to DB
+// Benutzer in der Datenbank speichern
 $createdUser = $userLogic->register($user);
 if (!$createdUser) {
     http_response_code(500);
@@ -70,25 +91,33 @@ if (!$createdUser) {
 
 $createdUserId = $createdUser['id'];
 
+// -----------------------------
+// 4. JWT erzeugen (für Login)
+// -----------------------------
+
 // JWT
 $payload = [
-    'iss' => 'http://localhost',
-    'aud' => 'http://localhost',
-    'iat' => time(),
-    'exp' => time() + 3600,
+    'iss' => 'http://localhost',            // Aussteller
+    'aud' => 'http://localhost',            // Empfänger
+    'iat' => time(),                        // Ausgestellt am
+    'exp' => time() + 3600,                 // Ablaufzeit (1 Stunde)
     'data' => [
         'id' => $createdUserId,
         'email' => $user['email'],
         'username' => $user['username'],
-        'role' => 'user'
+        'role' => 'user'                    // Rollebe des Benutzers
     ]
 ];
 
+// JWT-Token mit geheimem Schlüssel signieren
 $jwt = JWT::encode($payload, $_ENV['JWT_SECRET'], 'HS256');
 
-// Store refresh token
-$refresh_token = bin2hex(random_bytes(32));
-$expires_at = date('Y-m-d H:i:s', time() + (60 * 60 * 24 * 7));
+// ----------------------------------
+// 5. Refresh Token in DB speichern
+// ----------------------------------
+
+$refresh_token = bin2hex(random_bytes(32)); // Zufälliger Token
+$expires_at = date('Y-m-d H:i:s', time() + (60 * 60 * 24 * 7)); // 7 Tage gültig
 
 try {
     $stmt = $pdo->prepare("INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (:user_id, :token, :expires_at)");
@@ -103,14 +132,21 @@ try {
     exit;
 }
 
-// Set cookie
+// -------------------------------
+// 6. Refresh Token als Cookie senden
+// -------------------------------
+
 setcookie('refresh_token', $refresh_token, [
-    'expires' => time() + (60 * 60 * 24 * 7),
+    'expires' => time() + (60 * 60 * 24 * 7), // 7 Tage
     'path' => '/',
-    'httponly' => true,
-    'secure' => false, //true in production
-    'samesite' => 'Strict'
+    'httponly' => true,                       // Nicht per JavaScript lesbar
+    'secure' => false,                        // In Produktion auf true setzen!
+    'samesite' => 'Strict'                    // Kein Cookie bei externem Request
 ]);
+
+// ----------------------------
+// 7. Erfolgsantwort an Client
+// ----------------------------
 
 // Success response
 echo json_encode([
