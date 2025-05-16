@@ -107,6 +107,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         const data = {
+          username: $('input[name="username"]').val(),
           email: $('input[name="email"]').val(),
           telephone: $('input[name="telephone"]').val(),
           city: $('input[name="city"]').val(),
