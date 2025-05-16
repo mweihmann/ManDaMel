@@ -1,10 +1,10 @@
 <?php include 'includes/header.php'; ?>
 
 <div class="container py-4">
-    <h2 class="mb-4">🎟️ Gutscheinverwaltung</h2>
+    <h2 class="mb-4">🎟️ Voucher Management</h2>
 
     <div class="mb-3">
-        <button id="create-btn" class="btn btn-success">➕ Neuen Gutschein erstellen</button>
+        <button id="create-btn" class="btn btn-success">➕ Create New Voucher</button>
     </div>
 
     <div id="voucher-list"></div>
@@ -21,20 +21,21 @@
                     <input type="hidden" id="voucher-id">
                     <div class="mb-3">
                         <label for="voucher-code" class="form-label">Code</label>
-                        <input type="text" id="voucher-code" class="form-control" required>
+                        <input type="text" id="voucher-code" class="form-control" name="voucher-code" required>
+                        <button type="button" class="btn btn-sm btn-outline-secondary mt-1" id="generate-code-btn">Generate Voucher Code</button>
                     </div>
                     <div class="mb-3">
-                        <label for="voucher-value" class="form-label">Wert (€)</label>
+                        <label for="voucher-value" class="form-label">Value (€)</label>
                         <input type="number" id="voucher-value" class="form-control" required min="0">
                     </div>
                     <div class="mb-3">
-                        <label for="voucher-expiry" class="form-label">Gültig bis</label>
+                        <label for="voucher-expiry" class="form-label">Valid till</label>
                         <input type="datetime-local" id="voucher-expiry" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">💾 Speichern</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">💾 Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abort</button>
                 </div>
             </form>
         </div>
