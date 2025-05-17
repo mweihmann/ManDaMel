@@ -7,36 +7,36 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 ## 🏗️ **Project Structure**
 
 ```
-📁 ManDaMel                            -- Root project folder
+📁 MANDAMEL                             -- Root project folder
 │
-├── 📁 backend                         -- PHP backend application
-│   ├── 📁 .devcontainer               -- VS Code dev container for backend
+├── 📁 .github                          -- GitHub workflows and configurations
+│
+├── 📁 backend                          -- PHP backend application
+│   ├── 📁 .devcontainer                -- Dev container config (VS Code)
 │   │   ├── 📄 devcontainer.json       -- Dev container configuration for VS Code
 │   │   ├── 🐘 Dockerfile              -- Dockerfile to set up backend environment
 │   │   └── ⚙️ xdebug.ini              -- Xdebug config for backend container
-│   ├── 📁 .vscode
+│   ├── 📁 .vscode                      -- Debug configuration for VS Code
 │   │   └── 🐞 launch.json             -- VS Code launch config for Xdebug
-│   ├── 📁 businesslogic
-│   │   └── 👤 UserLogic.php           -- Business logic for handling user data
-│   ├── 📁 config
-│   │   ├── 🧩 bootstrap.php           -- App bootstrapper for setup
-│   │   └── 🗃️ db.php                  -- MySQL connection setup
-│   ├── 📁 models
-│   │   └── 👤 User.php                -- User model representing DB structure
-│   ├── 📁 public                      -- Public web root (exposed to Apache)
+│   ├── 📁 auth                         -- Authentication logic & middleware
+│   ├── 📁 businesslogic                -- Business rules for cart, users, products, etc.
+│   ├── 📁 config                       -- Config files (bootstrap, DB connection)
+│   ├── 📁 lib\fpdf                     -- All FPDF files for crteating pdf invoices
+│   ├── 📁 models                       -- PHP models for database mapping
+│   ├── 📁 public                       -- Publicly accessible API endpoints (e.g. login, register)
 │   │   ├── 📁 api
-│   │   │   └── 🔌 serviceHandler.php  -- API endpoint to handle AJAX calls
-│   │   ├── 📦 vendor                  -- Autoloaded dependencies (Composer)
-│   │   ├── 📄 composer.json           -- Composer dependencies config
-│   │   ├── 🧪 debug-test.php          -- Simple PHP file for debugging Xdebug
-│   │   └── 📄 index.php               -- Entry point for public/backend frontend
-│   ├── 🧾 .env.example                -- Environment variables
-│   ├── 📄 composer.json               -- Main composer configuration
-│   ├── 📦 composer.lock               -- Locked composer dependencies
-│   └── 🔌 datahandler.php             -- Alternate API handler
+│   │   └── 📄 composer.json           -- Composer dependencies config
+│   ├── 📁 uploads\files                -- Uploaded product files (PDFs, ZIPs)
+│   ├── 📦 vendor                       -- Composer dependencies (auto-generated)
+│   ├── ⚙️ .env                         -- Environment variables (not versioned)
+│   ├── ⚙️ .env.example                 -- Example environment file
+│   ├── 📄 composer.json               -- Dependency declarations
+│   ├── 📄 composer.lock               -- Dependency lock file
+│   └── 🔌 datahandler.php              -- Generic data handler (optional)
 │
 ├── 📁 database                        -- SQL initialization for MySQL
 │   ├── 🧱 init.sql                    -- SQL schema definition
+│   ├── 🧩 manda.dbml                   -- SQL DB Visualisation
 │   └── 🌱 seed.sql                    -- Insert demo/seed data
 │
 ├── 📁 frontend                        -- Frontend application
@@ -48,18 +48,27 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │   │   └── 🐞 launch.json             -- Xdebug launch config for frontend
 │   ├── 📁 css
 │   │   └── 💅 style.css               -- CSS styles
+│   ├── 📁 includes                     -- Header/Footer includes
 │   ├── 📁 js                          -- Placeholder for JavaScript files
-│   ├── ⚙️ config.php                  -- Frontend config logic (PHP)
 │   ├── 🧾 index.php                   -- Main frontend file that loads data
-│   ├── 🧾 index2.php                  -- Alternative frontend layout or version (should be deleted)
-│   └── 📝 register.php                -- Register form or placeholder
+│   ├── 📄 checkout.php                -- Checkout page
+│   ├── 📄 config.php                  -- Frontend configuration
+│   ├── 📄 index.php                   -- Start page
+│   ├── 📄 login.php                   -- Login form
+│   ├── 📄 manage_accounts.php        -- Admin: manage user accounts
+│   ├── 📄 manage_products.php        -- Admin: manage products
+│   ├── 📄 manage_vouchers.php        -- Admin: manage vouchers
+│   ├── 📄 my_account.php             -- User profile page
+│   ├── 📄 product.php                -- Product details
+│   └── 📄 register.php               -- Registration page
 │
-├── 🧩 .code-workspace                 -- VS Code workspace file
-├── 📄 .gitignore                      -- Git ignore rules (node_modules, vendor, env, IDE files, etc.)
-├── 🐳 docker-compose.yml              -- Defines all containers and services
-├── 🍎 MACOS_START.sh                  -- Startup script for macOS
-├── 🪟 WINDOWS_START.ps1               -- Startup script for Windows
-└── 📖 README.md                       -- Project documentation (this file)
+├── 🧩 .code-workspace                  -- VS Code workspace settings
+├── 📄 .gitignore                       -- Git ignored files & folders
+├── 🐳 docker-compose.yml              -- Docker configuration
+├── 🍎 MACOS_START.sh                  -- Startup script (macOS)
+├── 📖 README.md                        -- This documentation file
+└── 🪟 WINDOWS_START.ps1               -- Startup script (Windows)
+
 ```
 
 ## ✅ Prerequisites
@@ -99,6 +108,10 @@ Copy-Item .env.example .env
 cp .env.example .env
 ```
 
+### With PHP Debugging (not necessary)
+
+- Comment in the lines `code ./frontend` and `code ./backend` inside of `WINDOWS_START.ps1` or `MACOS_START.sh`
+
 ### Windows
 
 1. Open PowerShell as Administrator
@@ -122,13 +135,13 @@ chmod +x MACOS_START.sh
 
 ---
 
-### After
+### Debugging (only for debugging)
 
 > ⚠️ If you have limited RAM/CPU: open backend and frontend containers **one after the other**.
 
-3. Open **VS Code** in the `backend` and/or `frontend` folders
-4. Use Command Palette → **“Dev Containers: Reopen in Container”**
-5. Once loaded:
+1. Open **VS Code** in the `backend` and/or `frontend` folders
+2. Use Command Palette → **“Dev Containers: Reopen in Container”**
+3. Once loaded:
    - Open `.vscode/launch.json`
    - Press `F5` to start the debugger
 
@@ -137,7 +150,6 @@ chmod +x MACOS_START.sh
 ### 🌐 Access the Application
 
 - Backend: [http://localhost:5000](http://localhost:5000) 
-- API Test: [http://localhost:5000/api/serviceHandler.php?method=getAllUsers](http://localhost:5000/api/serviceHandler.php?method=getAllUsers) 
 - Frontend: [http://localhost:3000](http://localhost:3000)
 
 ---

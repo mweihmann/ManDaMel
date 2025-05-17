@@ -14,7 +14,6 @@ class CheckoutLogic {
 
         $total = array_reduce($items, fn($sum, $item) => $sum + $item['price'] * $item['quantity'], 0);
         $voucherId = null;
-        $promoId = null;
         $voucherValue = 0;
 
         // Gutschein prüfen
@@ -38,8 +37,8 @@ class CheckoutLogic {
         }
 
         // Bestellung speichern
-        $stmt = $pdo->prepare("INSERT INTO orders (user_id, payment_method, total, voucher_id, promo_code_id) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$userId, $finalTotal > 0 ? $paymentMethod : 'voucher', $total, $voucherId, $promoId]);
+        $stmt = $pdo->prepare("INSERT INTO orders (user_id, payment_method, total, voucher_id) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$userId, $finalTotal > 0 ? $paymentMethod : 'voucher', $total, $voucherId]);
         $orderId = $pdo->lastInsertId();
 
         foreach ($items as $item) {

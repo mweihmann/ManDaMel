@@ -1,12 +1,14 @@
 $(document).ready(function () {
+  // JWT Token aus dem Speicher holen
   const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
 
+  // Wenn kein Token vorhanden ist, zur Login-Seite weiterleiten
   if (!token) {
     window.location.href = 'login.php';
     return;
   }
 
-  // get user
+  // Benutzerdaten abrufen
   $.ajax({
     url: 'http://localhost:5000/api/get_current_user.php',
     method: 'GET',
@@ -14,7 +16,8 @@ $(document).ready(function () {
       'Authorization': `Bearer ${token}`
     },
     success: function (user) {
-      $('#account-details').html(`
+      // Profildaten anzeigen
+      $('#account-details').html(` 
         <div class="accordion" id="accountAccordion">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingView">
@@ -74,6 +77,7 @@ $(document).ready(function () {
                       <div class="mb-3"><label>Postal Code</label><input type="text" class="form-control" name="postal_code" value="${user.postal_code}"></div>
                       <div class="mb-3"><label>Street</label><input type="text" class="form-control" name="street" value="${user.street}"></div>
                       <div class="mb-3"><label>House Number</label><input type="text" class="form-control" name="house_number" value="${user.house_number}"></div>
+                      <div class="mb-3"><label>Current Password (required for update)</label><input type="password" class="form-control" name="current_password" required></div>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
@@ -100,13 +104,17 @@ $(document).ready(function () {
         </div>
       `);
 
+      // Zahlungsmethoden laden
       loadPaymentMethods(token);
       setupPaymentForm(token);
 
+      // Profil bearbeiten
       $('#account-form').on('submit', function (e) {
         e.preventDefault();
 
+        // Formularwerte sammeln
         const data = {
+          username: $('input[name="username"]').val(),
           email: $('input[name="email"]').val(),
           telephone: $('input[name="telephone"]').val(),
           city: $('input[name="city"]').val(),
@@ -116,9 +124,11 @@ $(document).ready(function () {
           house_number: $('input[name="house_number"]').val(),
           given_name: $('input[name="given_name"]').val(),
           surname: $('input[name="surname"]').val(),
-          pronouns: $('input[name="pronouns"]').val()
+          pronouns: $('input[name="pronouns"]').val(),
+          current_password: $('input[name="current_password"]').val()
         };
 
+        // Änderungen speichern
         $.ajax({
           url: 'http://localhost:5000/api/update_account.php',
           method: 'POST',
@@ -142,7 +152,7 @@ $(document).ready(function () {
     }
   });
 
-  // Load orders
+  // Bestellungen laden
   $.ajax({
     url: 'http://localhost:5000/api/orders.php',
     method: 'GET',
@@ -154,13 +164,15 @@ $(document).ready(function () {
         $('#order-container').html('<p>You have no orders yet.</p>');
         return;
       }
-    
+
+      // Accordion für Bestellungen erstellen
       let accordion = `<div class="accordion" id="ordersAccordion">`;
-    
+
       response.orders.forEach((order, index) => {
         const collapseId = `collapseOrder${index}`;
         const headingId = `headingOrder${index}`;
-    
+
+        // Produkte der Bestellung
         let productsHtml = '';
         order.products.forEach(product => {
           productsHtml += `
@@ -171,10 +183,16 @@ $(document).ready(function () {
                   Download
                 </button>
               </td>
+              <td>
+                <button class="btn btn-outline-secondary btn-sm invoice-btn" data-order-id="${order.id}">
+                  📄 Print Invoice
+                </button>
+              </td>
             </tr>
           `;
         });
-    
+
+        // Bestellung in Accordion einfügen
         accordion += `
           <div class="accordion-item">
             <h2 class="accordion-header" id="${headingId}">
@@ -189,6 +207,7 @@ $(document).ready(function () {
                     <tr>
                       <th>Product</th>
                       <th>Download</th>
+                      <th>Invoice</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -200,13 +219,14 @@ $(document).ready(function () {
           </div>
         `;
       });
-    
+
       accordion += `</div>`;
       $('#order-container').html(accordion);
 
+      // Download-Funktion
       $('.download-btn').on('click', function () {
         const fileId = $(this).data('file-id');
-      
+
         fetch(`http://localhost:5000/api/download.php?file_id=${fileId}`, {
           method: 'GET',
           headers: {
@@ -216,25 +236,26 @@ $(document).ready(function () {
           .then(response => {
             if (!response.ok) throw new Error('Download failed');
 
-            // get filename from header
+            // Dateiname aus Header lesen
             const disposition = response.headers.get('Content-Disposition');
             let filename = 'downloaded_file';
-      
+
             if (disposition) {
               // extract utf-8 type first
               const utfMatch = disposition.match(/filename\*\=UTF-8''([^;\n]+)/);
               const simpleMatch = disposition.match(/filename=\"?([^\";\n]+)\"?/);
-          
+
               if (utfMatch) {
                 filename = decodeURIComponent(utfMatch[1]);
               } else if (simpleMatch) {
                 filename = simpleMatch[1];
               }
             }
-      
+
             return response.blob().then(blob => ({ blob, filename }));
           })
           .then(({ blob, filename }) => {
+            // Datei herunterladen
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -248,13 +269,14 @@ $(document).ready(function () {
             alert('Download failed or access denied.');
             console.error(err);
           });
-      });      
+      });
     },
     error: function () {
       $('#order-container').html('<p class="text-danger">Could not load orders. Please log in again.</p>');
     }
   });
 
+  // Zahlungsmethoden abrufen
   function loadPaymentMethods(token) {
     $.ajax({
       url: 'http://localhost:5000/api/get_payment_info.php',
@@ -293,8 +315,10 @@ $(document).ready(function () {
     });
   }
 
+  // Zahlungsformular anzeigen und verarbeiten
   function setupPaymentForm(token) {
-    $('#payment-form-container').append(`
+    // Formular HTML einfügen
+    $('#payment-form-container').append(` 
       <div class="mt-5">
         <form id="payment-form">
           <div class="mb-3">
@@ -322,11 +346,14 @@ $(document).ready(function () {
     `);
 
     const $fields = $('#payment-fields');
+
+    // Felder je nach Auswahl anzeigen
     $('select[name="method"]').on('change', function () {
       const method = $(this).val();
       $fields.html('');
 
       if (method === 'creditcard') {
+        // Kreditkartenfelder
         $fields.html(`
           <div class="mb-3"><label>Card Number</label><input name="creditcard_number" class="form-control"></div>
           <div class="mb-3"><label>Expiry (MM/YYYY)</label><input name="creditcard_expiry" class="form-control"></div>
@@ -339,6 +366,7 @@ $(document).ready(function () {
       }
     }).trigger('change');
 
+    // Formular absenden
     $('#payment-form').on('submit', function (e) {
       e.preventDefault();
 
@@ -352,6 +380,7 @@ $(document).ready(function () {
         holder_name: $('input[name="holder_name"]').val(),
       };
 
+      // Zahlungsart speichern
       $.ajax({
         url: 'http://localhost:5000/api/add_payment_method.php',
         method: 'POST',
@@ -372,5 +401,32 @@ $(document).ready(function () {
       });
     });
   }
+
+  $('body').on('click', '.invoice-btn', function () {
+    const orderId = $(this).data('order-id');
+  
+    fetch(`http://localhost:5000/api/generate_invoice.php?order_id=${orderId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Fehler beim Generieren der Rechnung');
+      return res.blob();
+    })
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Rechnung_Order_${orderId}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    })
+    .catch(err => alert('Fehler beim Download der Rechnung.'));
+  });
+  
 
 });

@@ -1,6 +1,8 @@
+-- Datenbank erstellen, falls nicht vorhanden
 CREATE DATABASE IF NOT EXISTS mandamel;
 USE mandamel;
 
+-- Benutzer-Tabelle
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100) UNIQUE NOT NULL,
@@ -14,32 +16,34 @@ CREATE TABLE users (
     postal_code VARCHAR(10),
     street VARCHAR(100),
     house_number VARCHAR(10),
-    role ENUM('admin', 'employee', 'user') NOT NULL,
+    role ENUM('admin', 'user') NOT NULL,
     user_state ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
     password_hash VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_login DATETIME NULL
 );
 
+-- Zahlungsinformationen
 CREATE TABLE payment_info (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    method ENUM('creditcard', 'iban', 'voucher') NOT NULL,
+    method ENUM('creditcard', 'iban') NOT NULL,
     creditcard_number VARCHAR(20),
     creditcard_expiry VARCHAR(7),
     creditcard_cvv VARCHAR(4),
     iban VARCHAR(34),
-    voucher_code VARCHAR(5),
     holder_name VARCHAR(100),
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+-- Produktkategorien
 CREATE TABLE categories (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) UNIQUE NOT NULL
 );
 
+-- Produkte
 CREATE TABLE products (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -54,6 +58,7 @@ CREATE TABLE products (
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
+-- Gutscheine
 CREATE TABLE vouchers (
     id INT PRIMARY KEY AUTO_INCREMENT,
     code VARCHAR(5) UNIQUE NOT NULL,
@@ -62,29 +67,20 @@ CREATE TABLE vouchers (
     is_used BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE promo_codes (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    code VARCHAR(50) UNIQUE NOT NULL,
-    discount DECIMAL(10,2) NOT NULL,
-    type ENUM('fixed', 'percentage'),
-    expires_at DATETIME,
-    usage_limit INT
-);
-
+-- Bestellungen
 CREATE TABLE orders (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     payment_method ENUM('creditcard', 'iban', 'voucher'),
     total DECIMAL(10,2) NOT NULL,
-    promo_code_id INT,
     voucher_id INT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    invoice_number VARCHAR(20) DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (promo_code_id) REFERENCES promo_codes(id),
     FOREIGN KEY (voucher_id) REFERENCES vouchers(id)
 );
 
-
+-- Bestellpositionen
 CREATE TABLE order_items (
     id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT NOT NULL,
@@ -103,7 +99,7 @@ CREATE TABLE refresh_tokens (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Tabelle für persistente Warenkörbe
+-- Warenkörbe (persistente Speicherung)
 CREATE TABLE carts (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,

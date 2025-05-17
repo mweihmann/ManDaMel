@@ -1,4 +1,15 @@
 <?php
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS");
+header("Access-Control-Allow-Credentials: true");
+header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 require_once __DIR__ . '/../../config/bootstrap.php';
 require_once __DIR__ . '/../../auth/auth.php';
 require_once __DIR__ . '/../../businesslogic/VoucherLogic.php';
@@ -32,12 +43,20 @@ switch ($method) {
         echo json_encode(['success' => $ok]);
         break;
 
-    case 'DELETE':
-        parse_str(file_get_contents("php://input"), $data);
-        $ok = VoucherLogic::delete((int)($data['id'] ?? 0));
+    // delete makes no sense to use without deleting info in the orders
+    // case 'DELETE':
+    //     parse_str(file_get_contents("php://input"), $data);
+    //     $ok = VoucherLogic::delete((int)($data['id'] ?? 0));
+    //     echo json_encode(['success' => $ok]);
+    //     break;
+
+    case 'PATCH':
+        $data = json_decode(file_get_contents('php://input'), true);
+        $ok = VoucherLogic::markAsUsed((int)($data['id'] ?? 0));
         echo json_encode(['success' => $ok]);
         break;
 
+    
     default:
         http_response_code(405);
         echo json_encode(['status' => 'error', 'message' => 'Nicht erlaubt']);

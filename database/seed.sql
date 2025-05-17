@@ -1,5 +1,7 @@
+-- Datenbank auswählen
 USE mandamel;
 
+-- Benutzer einfügen (Admin + Beispielnutzer)
 INSERT INTO
     users (
         username,
@@ -28,11 +30,11 @@ VALUES
         'Germany',
         'Berlin',
         '10115',
-        'Hauptstraße',
+        'Hauptstrasse',
         '1A',
         'admin',
         'active',
-        '$2y$10$TthgLD7O2tRf3mIvRV7NIuXnPNp4eubWTFY4g4rFZfEJ302c7jvvG'
+        '$2y$10$TthgLD7O2tRf3mIvRV7NIuXnPNp4eubWTFY4g4rFZfEJ302c7jvvG' -- Hash für Admin
     ),
     (
         'lisa',
@@ -44,13 +46,15 @@ VALUES
         'Germany',
         'Munich',
         '80331',
-        'Nebenstraße',
+        'Nebenstrasse',
         '99',
         'user',
         'active',
-        '$2y$10$ygTi/5dPftyz.e4D5zsRMul3vsr3mNhT/9TDnLIRuj/vDKlZjfoqa'
+        '$2y$10$ygTi/5dPftyz.e4D5zsRMul3vsr3mNhT/9TDnLIRuj/vDKlZjfoqa' -- Hash für Lisa
     );
 
+
+-- Zahlungsmethode (CC) für Benutzer ID 2 (Lisa) einfügen
 INSERT INTO
     payment_info (
         user_id,
@@ -65,11 +69,29 @@ VALUES
         2,
         'creditcard',
         '4111111111111111',
-        '12/26',
+        '12/2026',
         '123',
         'Lisa User'
     );
 
+-- Zahlungsmethode (IBAN) für Benutzer ID 2 (Lisa) einfügen
+INSERT INTO
+    payment_info (
+        user_id,
+        method,
+        iban,
+        holder_name
+    )
+VALUES
+    (
+        2,
+        'iban',
+        'DE89370400440532013000',
+        'Lisa User'
+    );
+
+
+-- Kategorien einfügen
 INSERT INTO
     categories (name)
 VALUES
@@ -77,6 +99,8 @@ VALUES
     ('Software'),
     ('Courses');
 
+
+-- Produkte einfügen
 INSERT INTO
     products (
         name,
@@ -170,41 +194,35 @@ VALUES
         1
     );
 
-INSERT INTO
-    vouchers (code, value, expires_at)
-VALUES
-    ('A1B2C', 25.00, '2026-06-15 17:34:33'),
-    ('D3E4F', 10.00, '2026-06-15 17:34:33');
 
-INSERT INTO
-    promo_codes (code, discount, type, expires_at, usage_limit)
-VALUES
-    (
-        'WELCOME10',
-        10.00,
-        'percentage',
-        '2026-06-15 17:34:33',
-        100
-    ),
-    ('SAVE5', 5.00, 'fixed', '2026-06-15 17:34:33', 50);
+-- -- Gutscheine einfügen
+-- INSERT INTO
+--     vouchers (code, value, expires_at)
+-- VALUES
+--     ('A1B2C', 25.00, '2026-06-15 17:34:33'),
+--     ('D3E4F', 10.00, '2026-06-15 17:34:33'),
+--     ('C3PO0', 10.00, '2026-06-15 17:34:33');
 
-INSERT INTO
-    orders (
-        user_id,
-        payment_method,
-        total,
-        promo_code_id,
-        voucher_id
-    )
-VALUES
-    (2, 'creditcard', 49.99, 1, NULL);
+-- -- Bestellung (Order) einfügen für User 2 mit Promo-Code 1
+-- INSERT INTO
+--     orders (
+--         user_id,
+--         payment_method,
+--         total,
+--         voucher_id,
+--         invoice_number
+--     )
+-- VALUES
+--     (2, 'creditcard', 49.99, 1, NULL, 'INV-000001'),
 
-INSERT INTO
-    order_items (order_id, product_id, price)
-VALUES
-    (1, 3, 49.99);
+-- -- Bestellposition (Artikel in Bestellung) zu Bestellung 1 hinzufügen
+-- INSERT INTO
+--     order_items (order_id, product_id, price)
+-- VALUES
+--     (1, 3, 49.99);  -- JS Mastery Course
 
-INSERT INTO
-    refresh_tokens (user_id, token, expires_at)
-VALUES
-    (2, 'sample_refresh_token', '2026-04-15 17:34:33');
+-- -- Beispiel Refresh Token für Benutzer 2 einfügen
+-- INSERT INTO
+--     refresh_tokens (user_id, token, expires_at)
+-- VALUES
+--     (2, 'sample_refresh_token', '2026-04-15 17:34:33');
