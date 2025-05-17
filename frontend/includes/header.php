@@ -7,7 +7,7 @@
     <title>ManDaMel</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="http://localhost:5000/uploads/images/favicon.ico" type="image/x-icon" />
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,55 +17,55 @@
 
 <body>
 
-<!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5 d-flex align-items-center justify-content-between">
-        <!-- Logo -->
-        <a href="index.php" class="d-flex align-items-center">
-            <img src="http://localhost:5000/uploads/images/logo.png" alt="Logo" class="logo-img me-3" />
-        </a>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5 d-flex align-items-center justify-content-between">
+            <!-- Logo -->
+            <a href="index.php" class="d-flex align-items-center">
+                <img src="http://localhost:5000/uploads/images/logo.png" alt="Logo" class="logo-img me-3" />
+            </a>
 
-        <!-- Suche -->
-        <form class="d-flex flex-grow-1 me-4" role="search">
-            <input id="product-search" class="form-control me-2 search-input" type="search"
-                placeholder="What are you looking for?" aria-label="Search">
-            <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-        </form>
-        <!-- Cart & User -->
-        <div class="d-flex align-items-center">
-            <form class="d-flex me-3">
-                <!-- <button class="btn btn-outline-dark" type="submit">
+            <!-- Suche -->
+            <form class="d-flex flex-grow-1 me-4" role="search">
+                <input id="product-search" class="form-control me-2 search-input" type="search"
+                    placeholder="What are you looking for?" aria-label="Search">
+                <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+            <!-- Warenkorb & Benutzer -->
+            <div class="d-flex align-items-center">
+                <form class="d-flex me-3">
+                    <!-- <button class="btn btn-outline-dark" type="submit">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button> -->
-                <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" id="cart-icon-dropzone">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </button>
-            </form>
-            <div class="dropdown">
-                <button class="btn btn-outline-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" id="user-dropdown-menu">
-                    <!-- Filled by JS depending on cookie -->
-                </ul>
+                    <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" id="cart-icon-dropzone">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    </button>
+                </form>
+
+                <!-- Benutzer-Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" id="user-dropdown-menu">
+                        <!-- Wird per JavaScript je nach Login-Zustand gefüllt -->
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- Offcanvas Cart Sidebar -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="cartSidebarLabel">Cart</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Schließen"></button>
+    <!-- Offcanvas-Warenkorb (Seitenleiste) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar" aria-labelledby="cartSidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="cartSidebarLabel">Cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Schließen"></button>
+        </div>
+        <div class="offcanvas-body" id="cartSidebarBody">
+            <!-- JS füllt Inhalte dynamisch -->
+        </div>
     </div>
-    <div class="offcanvas-body" id="cartSidebarBody">
-        <!-- JS füllt Inhalte dynamisch -->
-    </div>
-</div>
-
-

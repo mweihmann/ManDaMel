@@ -1,5 +1,7 @@
+-- Datenbank auswählen
 USE mandamel;
 
+-- Benutzer einfügen (Admin + Beispielnutzer)
 INSERT INTO
     users (
         username,
@@ -32,7 +34,7 @@ VALUES
         '1A',
         'admin',
         'active',
-        '$2y$10$TthgLD7O2tRf3mIvRV7NIuXnPNp4eubWTFY4g4rFZfEJ302c7jvvG'
+        '$2y$10$TthgLD7O2tRf3mIvRV7NIuXnPNp4eubWTFY4g4rFZfEJ302c7jvvG' -- Hash für Admin
     ),
     (
         'lisa',
@@ -48,9 +50,11 @@ VALUES
         '99',
         'user',
         'active',
-        '$2y$10$ygTi/5dPftyz.e4D5zsRMul3vsr3mNhT/9TDnLIRuj/vDKlZjfoqa'
+        '$2y$10$ygTi/5dPftyz.e4D5zsRMul3vsr3mNhT/9TDnLIRuj/vDKlZjfoqa' -- Hash für Lisa
     );
 
+
+-- Zahlungsmethode für Benutzer ID 2 (Lisa) einfügen
 INSERT INTO
     payment_info (
         user_id,
@@ -70,6 +74,7 @@ VALUES
         'Lisa User'
     );
 
+-- Kategorien einfügen
 INSERT INTO
     categories (name)
 VALUES
@@ -77,6 +82,7 @@ VALUES
     ('Software'),
     ('Courses');
 
+-- Produkte einfügen
 INSERT INTO
     products (
         name,
@@ -170,12 +176,14 @@ VALUES
         1
     );
 
+-- Gutscheine einfügen
 INSERT INTO
     vouchers (code, value, expires_at)
 VALUES
     ('A1B2C', 25.00, '2026-06-15 17:34:33'),
     ('D3E4F', 10.00, '2026-06-15 17:34:33');
 
+-- Bestellung (Order) einfügen für User 2 mit Promo-Code 1
 INSERT INTO
     orders (
         user_id,
@@ -187,11 +195,13 @@ INSERT INTO
 VALUES
     (2, 'creditcard', 49.99, 1, NULL, 123456789),
 
+-- Bestellposition (Artikel in Bestellung) zu Bestellung 1 hinzufügen
 INSERT INTO
     order_items (order_id, product_id, price)
 VALUES
-    (1, 3, 49.99);
+    (1, 3, 49.99);  -- JS Mastery Course
 
+-- Beispiel Refresh Token für Benutzer 2 einfügen
 INSERT INTO
     refresh_tokens (user_id, token, expires_at)
 VALUES

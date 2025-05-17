@@ -7,37 +7,36 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 ## 🏗️ **Project Structure**
 
 ```
-📁 ManDaMel                            -- Root project folder
+📁 MANDAMEL                             -- Root project folder
 │
-├── 📁 backend                         -- PHP backend application
-│   ├── 📁 .devcontainer               -- VS Code dev container for backend
+├── 📁 .github                          -- GitHub workflows and configurations
+│
+├── 📁 backend                          -- PHP backend application
+│   ├── 📁 .devcontainer                -- Dev container config (VS Code)
 │   │   ├── 📄 devcontainer.json       -- Dev container configuration for VS Code
 │   │   ├── 🐘 Dockerfile              -- Dockerfile to set up backend environment
 │   │   └── ⚙️ xdebug.ini              -- Xdebug config for backend container
-│   ├── 📁 .vscode
+│   ├── 📁 .vscode                      -- Debug configuration for VS Code
 │   │   └── 🐞 launch.json             -- VS Code launch config for Xdebug
-│   ├── 📁 businesslogic
-│   │   └── 👤 xxxLogic.php            -- Placeholder for all Business logic files
-│   ├── 📁 config
-│   │   ├── 🧩 bootstrap.php           -- App bootstrapper for setup
-│   │   └── 🗃️ db.php                  -- MySQL connection setup
-│   ├── 📁 lib
-│   │   └── 📁 fpdf                    -- All FPDF files for crteating pdf invoices
-│   ├── 📁 models
-│   │   └── 👤 xxxx.php                -- Placeholder for all model files representing the DB structure
-│   ├── 📁 public                      -- Public web root (exposed to Apache)
+│   ├── 📁 auth                         -- Authentication logic & middleware
+│   ├── 📁 businesslogic                -- Business rules for cart, users, products, etc.
+│   ├── 📁 config                       -- Config files (bootstrap, DB connection)
+│   ├── 📁 lib\fpdf                     -- All FPDF files for crteating pdf invoices
+│   ├── 📁 models                       -- PHP models for database mapping
+│   ├── 📁 public                       -- Publicly accessible API endpoints (e.g. login, register)
 │   │   ├── 📁 api
-│   │   │   └── 🔌 xxxx.php            -- Placeholder for all API endpoints
-│   │   ├── 📦 vendor                  -- Autoloaded dependencies (Composer)
 │   │   └── 📄 composer.json           -- Composer dependencies config
-│   ├── 🧾 .env.example                -- Environment variables
-│   ├── 📄 composer.json               -- Main composer configuration
-│   ├── 📦 composer.lock               -- Locked composer dependencies
-│   └── 🔌 datahandler.php             -- Alternate API handler
+│   ├── 📁 uploads\files                -- Uploaded product files (PDFs, ZIPs)
+│   ├── 📦 vendor                       -- Composer dependencies (auto-generated)
+│   ├── ⚙️ .env                         -- Environment variables (not versioned)
+│   ├── ⚙️ .env.example                 -- Example environment file
+│   ├── 📄 composer.json               -- Dependency declarations
+│   ├── 📄 composer.lock               -- Dependency lock file
+│   └── 🔌 datahandler.php              -- Generic data handler (optional)
 │
 ├── 📁 database                        -- SQL initialization for MySQL
 │   ├── 🧱 init.sql                    -- SQL schema definition
-│   ├── 🧱 manda.dbml                   -- SQL DB Visualisation
+│   ├── 🧩 manda.dbml                   -- SQL DB Visualisation
 │   └── 🌱 seed.sql                    -- Insert demo/seed data
 │
 ├── 📁 frontend                        -- Frontend application
@@ -49,17 +48,27 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │   │   └── 🐞 launch.json             -- Xdebug launch config for frontend
 │   ├── 📁 css
 │   │   └── 💅 style.css               -- CSS styles
+│   ├── 📁 includes                     -- Header/Footer includes
 │   ├── 📁 js                          -- Placeholder for JavaScript files
 │   ├── 🧾 index.php                   -- Main frontend file that loads data
-│   ├── 🧾 xxxx.php                    -- Placeholder for all .php frontend files
-│   └── 📝 register.php                -- Register form 
+│   ├── 📄 checkout.php                -- Checkout page
+│   ├── 📄 config.php                  -- Frontend configuration
+│   ├── 📄 index.php                   -- Start page
+│   ├── 📄 login.php                   -- Login form
+│   ├── 📄 manage_accounts.php        -- Admin: manage user accounts
+│   ├── 📄 manage_products.php        -- Admin: manage products
+│   ├── 📄 manage_vouchers.php        -- Admin: manage vouchers
+│   ├── 📄 my_account.php             -- User profile page
+│   ├── 📄 product.php                -- Product details
+│   └── 📄 register.php               -- Registration page
 │
-├── 🧩 .code-workspace                 -- VS Code workspace file
-├── 📄 .gitignore                      -- Git ignore rules (node_modules, vendor, env, IDE files, etc.)
-├── 🐳 docker-compose.yml              -- Defines all containers and services
-├── 🍎 MACOS_START.sh                  -- Startup script for macOS
-├── 🪟 WINDOWS_START.ps1               -- Startup script for Windows
-└── 📖 README.md                       -- Project documentation (this file)
+├── 🧩 .code-workspace                  -- VS Code workspace settings
+├── 📄 .gitignore                       -- Git ignored files & folders
+├── 🐳 docker-compose.yml              -- Docker configuration
+├── 🍎 MACOS_START.sh                  -- Startup script (macOS)
+├── 📖 README.md                        -- This documentation file
+└── 🪟 WINDOWS_START.ps1               -- Startup script (Windows)
+
 ```
 
 ## ✅ Prerequisites

@@ -33,10 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchProducts();
 });
 
+// Funktion zum Abrufen und Anzeigen der Produkte
 function fetchProducts(query = '', formData = null) {
     let url = `http://localhost:5000/api/product_data.php?search=${encodeURIComponent(query)}`;
 
-
+    // Wenn Filterdaten vorhanden sind, anhängen
     if (formData) {
         const params = new URLSearchParams();
         for (const [key, value] of formData.entries()) {
@@ -47,17 +48,20 @@ function fetchProducts(query = '', formData = null) {
         url += '&' + params.toString();
     }
 
+    // Produkte abrufen und in die Seite einfügen
     fetch(url)
         .then(res => res.json())
         .then(products => {
             const productList = document.getElementById('product-list');
             productList.innerHTML = '';
 
+            // Wenn keine Produkte gefunden wurden
             if (products.length === 0) {
                 productList.innerHTML = '<p class="text-center text-muted">Keine Produkte gefunden.</p>';
                 return;
             }
 
+            // Produkte iterieren und darstellen
             products.forEach(product => {
                 const col = document.createElement('div');
                 col.className = 'col mb-5';
@@ -69,6 +73,7 @@ function fetchProducts(query = '', formData = null) {
                     productImage = `http://localhost:5000/uploads/images/${product.image}`;
                 }
 
+                // Produktkarte HTML
                 col.innerHTML = `
                     <div class="card h-100" data-draggable-product data-product-id="${product.id}">
                         ${product.rating >= 5 ? '<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Top</div>' : ''}
@@ -96,6 +101,8 @@ function fetchProducts(query = '', formData = null) {
                 `;
                 productList.appendChild(col);
             });
+            
+            // Drag-Funktion aktivieren
             enableDragOnProducts();
         })
         .catch(err => {
@@ -105,12 +112,14 @@ function fetchProducts(query = '', formData = null) {
         });
 }
 
+// Hilfsfunktion zur sicheren Darstellung von Text (gegen XSS)
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
+// Bewertungssterne generieren
 function renderStars(rating) {
     let stars = '';
     for (let i = 0; i < rating; i++) {
@@ -119,6 +128,7 @@ function renderStars(rating) {
     return `<div class="d-flex justify-content-center small text-warning mb-2">${stars}</div>`;
 }
 
+// Produkte als draggable-Elemente vorbereiten
 function enableDragOnProducts() {
     document.querySelectorAll('[data-draggable-product]').forEach(elem => {
         elem.setAttribute('draggable', true);
