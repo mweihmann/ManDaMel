@@ -176,16 +176,14 @@ $(document).ready(function () {
         let productsHtml = '';
         order.products.forEach(product => {
           productsHtml += `
+            <button class="btn btn-outline-secondary btn-sm invoice-btn" data-order-id="${order.id}">
+              📄 Print Invoice
+            </button>
             <tr>
               <td>${product.name}</td>
               <td>
                 <button class="btn btn-sm btn-outline-primary download-btn" data-file-id="${product.id}">
                   Download
-                </button>
-              </td>
-              <td>
-                <button class="btn btn-outline-secondary btn-sm invoice-btn" data-order-id="${order.id}">
-                  📄 Print Invoice
                 </button>
               </td>
             </tr>
@@ -207,7 +205,6 @@ $(document).ready(function () {
                     <tr>
                       <th>Product</th>
                       <th>Download</th>
-                      <th>Invoice</th>
                     </tr>
                   </thead>
                   <tbody>

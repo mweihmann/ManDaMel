@@ -27,7 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 list.innerHTML = '<ul class="list-group">';
                 data.forEach(v => {
+
+                    let remaining = parseFloat(v.remaining_value ?? v.value ?? 0).toFixed(2);
+                    let total = parseFloat(v.value ?? 0).toFixed(2);
                     let badge = '';
+                    
                     if (v.is_used) badge = '<span class="badge bg-secondary ms-2">Used</span>';
                     else if (v.expired) badge = '<span class="badge bg-warning text-dark ms-2">Expired</span>';
 
@@ -35,8 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     list.innerHTML += `
                         <li class="list-group-item d-flex justify-content-between align-items-center ${v.is_used || v.expired ? 'opacity-75' : ''}">
                             <div>
-                                <strong>${v.code}</strong> — ${parseFloat(v.value).toFixed(2)} € ${badge}
-                                <br><small>gültig bis: ${new Date(v.expires_at).toLocaleString()}</small>
+                                <strong>${v.code}</strong> — ${remaining} Euro remaining / ${total} Euro ${badge}
+                                <br><small>valid until: ${new Date(v.expires_at).toLocaleString()}</small>
                             </div>
                             <div>
                                 <button class="btn btn-sm btn-outline-primary me-2 edit-btn" data-id="${v.id}" data-code="${v.code}" data-value="${v.value}" data-expires="${v.expires_at}" ${v.is_used ? 'disabled' : ''}>

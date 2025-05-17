@@ -63,6 +63,7 @@ CREATE TABLE vouchers (
     id INT PRIMARY KEY AUTO_INCREMENT,
     code VARCHAR(5) UNIQUE NOT NULL,
     value DECIMAL(10,2) NOT NULL,
+    remaining_value DECIMAL(10,2) NOT NULL DEFAULT 0,
     expires_at DATETIME NOT NULL,
     is_used BOOLEAN DEFAULT FALSE
 );

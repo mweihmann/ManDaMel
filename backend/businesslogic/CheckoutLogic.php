@@ -18,7 +18,7 @@ class CheckoutLogic {
 
         // Gutschein prüfen
         if ($voucherCode) {
-            $stmt = $pdo->prepare("SELECT * FROM vouchers WHERE code = ? AND is_used = 0 AND expires_at > NOW()");
+            $stmt = $pdo->prepare("SELECT * FROM vouchers WHERE code = ? AND remaining_value > 0 AND is_used = 0 AND expires_at > NOW()");
             $stmt->execute([$voucherCode]);
             $voucher = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -26,7 +26,7 @@ class CheckoutLogic {
                 return ['status' => 'error', 'message' => 'Ungültiger oder abgelaufener Gutschein'];
             }
 
-            $voucherValue = $voucher['value'];
+            $voucherValue = min($total, $voucher['remaining_value']);
             $voucherId = $voucher['id'];
         }
 
@@ -47,7 +47,10 @@ class CheckoutLogic {
         }
 
         if ($voucherId) {
-            $pdo->prepare("UPDATE vouchers SET is_used = 1 WHERE id = ?")->execute([$voucherId]);
+            $newValue = $voucher['remaining_value'] - $voucherValue;
+            $isUsed = $newValue <= 0 ? 1 : 0;
+            $update = $pdo->prepare("UPDATE vouchers SET remaining_value = ?, is_used = ? WHERE id = ?");
+            $update->execute([$newValue, $isUsed, $voucherId]);
         }
 
         CartLogic::clearCart($userId);
