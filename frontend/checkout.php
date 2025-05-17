@@ -21,6 +21,7 @@
                 <div class="mb-3">
                     <label for="voucher_code" class="form-label">🎟️ Voucher Code (optional)</label>
                     <input type="text" id="voucher_code" name="voucher_code" class="form-control" placeholder="z. B. SAVE10">
+                    <div id="voucher-info"></div>
                 </div>
 
                 <!-- Auswahl der Zahlungsmethode (per JS eingefügt) -->

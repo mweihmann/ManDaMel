@@ -2,9 +2,57 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lade Warenkorb beim Laden der Seite
     loadCheckoutCart();
 
-    const form = document.getElementById('checkout-form');
+    // Gutschein checken, wenn sich eingabefeld ändert
+    const voucherInput = document.getElementById('voucher_code');
+    voucherInput?.addEventListener('input', async function () {
+        const code = this.value.trim();
+        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
+        const infoBox = document.getElementById('voucher-info');
+
+        if (!code) {
+            infoBox.innerHTML = '';
+            return;
+        }
+
+        try {
+            const res = await fetch('http://localhost:5000/api/validate_voucher.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ voucher_code: code })
+            });
+
+            const data = await res.json();
+
+            if (data.status === 'success') {
+                const discount = parseFloat(data.discount ?? 0);
+                const totalAfter = parseFloat(data.total_after ?? 0);
+                const remainingValue = parseFloat(data.remaining_value ?? 0);
+                const remainingAfter = parseFloat(data.remaining_after ?? (remainingValue - discount));
+
+                infoBox.innerHTML = `
+                    <div class="alert alert-success mt-2">
+                        Voucher valid: <strong>${discount.toFixed(2)} €</strong> discount<br>
+                        New total price: <strong>${totalAfter.toFixed(2)} €</strong><br>
+                        Remaining voucher value after checkout: <strong>${remainingAfter.toFixed(2)} €</strong><br>
+                        Original voucher value: <strong>${remainingValue.toFixed(2)} €</strong>
+                    </div>
+                `;
+            } else {
+                infoBox.innerHTML = `<div class="alert alert-danger mt-2">${data.message}</div>`;
+            }
+        } catch (err) {
+            infoBox.innerHTML = `<div class="alert alert-danger mt-2">Fehler bei der Gutscheinprüfung</div>`;
+        }
+    });
+    
+    
+    
 
     // Wenn das Formular existiert, auf Absenden reagieren
+    const form = document.getElementById('checkout-form');
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -149,3 +197,5 @@ async function loadSavedPaymentMethods(token) {
         console.error('Fehler beim Laden der Zahlungsmethoden:', err);
     }
 }
+
+
