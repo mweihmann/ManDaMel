@@ -54,7 +54,7 @@ VALUES
     );
 
 
--- Zahlungsmethode für Benutzer ID 2 (Lisa) einfügen
+-- Zahlungsmethode (CC) für Benutzer ID 2 (Lisa) einfügen
 INSERT INTO
     payment_info (
         user_id,
@@ -69,10 +69,27 @@ VALUES
         2,
         'creditcard',
         '4111111111111111',
-        '12/26',
+        '12/2026',
         '123',
         'Lisa User'
     );
+
+-- Zahlungsmethode (IBAN) für Benutzer ID 2 (Lisa) einfügen
+INSERT INTO
+    payment_info (
+        user_id,
+        method,
+        iban,
+        holder_name
+    )
+VALUES
+    (
+        2,
+        'iban',
+        'DE89370400440532013000',
+        'Lisa User'
+    );
+
 
 -- Kategorien einfügen
 INSERT INTO
@@ -81,6 +98,7 @@ VALUES
     ('eBooks'),
     ('Software'),
     ('Courses');
+
 
 -- Produkte einfügen
 INSERT INTO
@@ -176,33 +194,35 @@ VALUES
         1
     );
 
--- Gutscheine einfügen
-INSERT INTO
-    vouchers (code, value, expires_at)
-VALUES
-    ('A1B2C', 25.00, '2026-06-15 17:34:33'),
-    ('D3E4F', 10.00, '2026-06-15 17:34:33');
 
--- Bestellung (Order) einfügen für User 2 mit Promo-Code 1
-INSERT INTO
-    orders (
-        user_id,
-        payment_method,
-        total,
-        voucher_id,
-        invoice_number
-    )
-VALUES
-    (2, 'creditcard', 49.99, 1, NULL, 123456789),
+-- -- Gutscheine einfügen
+-- INSERT INTO
+--     vouchers (code, value, expires_at)
+-- VALUES
+--     ('A1B2C', 25.00, '2026-06-15 17:34:33'),
+--     ('D3E4F', 10.00, '2026-06-15 17:34:33'),
+--     ('C3PO0', 10.00, '2026-06-15 17:34:33');
 
--- Bestellposition (Artikel in Bestellung) zu Bestellung 1 hinzufügen
-INSERT INTO
-    order_items (order_id, product_id, price)
-VALUES
-    (1, 3, 49.99);  -- JS Mastery Course
+-- -- Bestellung (Order) einfügen für User 2 mit Promo-Code 1
+-- INSERT INTO
+--     orders (
+--         user_id,
+--         payment_method,
+--         total,
+--         voucher_id,
+--         invoice_number
+--     )
+-- VALUES
+--     (2, 'creditcard', 49.99, 1, NULL, 'INV-000001'),
 
--- Beispiel Refresh Token für Benutzer 2 einfügen
-INSERT INTO
-    refresh_tokens (user_id, token, expires_at)
-VALUES
-    (2, 'sample_refresh_token', '2026-04-15 17:34:33');
+-- -- Bestellposition (Artikel in Bestellung) zu Bestellung 1 hinzufügen
+-- INSERT INTO
+--     order_items (order_id, product_id, price)
+-- VALUES
+--     (1, 3, 49.99);  -- JS Mastery Course
+
+-- -- Beispiel Refresh Token für Benutzer 2 einfügen
+-- INSERT INTO
+--     refresh_tokens (user_id, token, expires_at)
+-- VALUES
+--     (2, 'sample_refresh_token', '2026-04-15 17:34:33');

@@ -16,7 +16,7 @@ CREATE TABLE users (
     postal_code VARCHAR(10),
     street VARCHAR(100),
     house_number VARCHAR(10),
-    role ENUM('admin', 'employee', 'user') NOT NULL,
+    role ENUM('admin', 'user') NOT NULL,
     user_state ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
     password_hash VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -27,12 +27,11 @@ CREATE TABLE users (
 CREATE TABLE payment_info (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    method ENUM('creditcard', 'iban', 'voucher') NOT NULL,
+    method ENUM('creditcard', 'iban') NOT NULL,
     creditcard_number VARCHAR(20),
     creditcard_expiry VARCHAR(7),
     creditcard_cvv VARCHAR(4),
     iban VARCHAR(34),
-    voucher_code VARCHAR(5),
     holder_name VARCHAR(100),
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
