@@ -1,5 +1,21 @@
 $(document).ready(function () {
 
+    // Anzeige der Zahlungsfelder abhängig von der Auswahl
+    $('#payment_method').on('change', function () {
+        const method = $(this).val();
+        if (method === 'iban') {
+            $('#iban_group').removeClass('d-none');
+            $('#creditcard_group').addClass('d-none');
+        } else if (method === 'creditcard') {
+            $('#creditcard_group').removeClass('d-none');
+            $('#iban_group').addClass('d-none');
+        } else {
+            $('#iban_group').addClass('d-none');
+            $('#creditcard_group').addClass('d-none');
+        }
+    });
+
+
     // Beim Absenden des Formulars
     $('#registerForm').on('submit', async function (e) {
         e.preventDefault();
@@ -11,21 +27,29 @@ $(document).ready(function () {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;        // E-Mail-Prüfung
         const ibanRegex = /^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$/i; // IBAN-Prüfung
         const ccRegex = /^\d{12,19}$/;                          // Kreditkartennummer: 12–19 Ziffern
+        const ccExpiryRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;     // MM/YYYY mit gültigem Monat
+        const ccCvvRegex = /^\d{3,4}$/;                       // 3–4 Ziffern
+
 
         // Werte aus dem Formular abrufen und trimmen
-        const firstName = $('#firstname').val().trim();
-        const lastName = $('#lastname').val().trim();
-        const street = $('#street').val().trim();
-        const houseNumber = $('#house_number').val().trim();
-        const zip = $('#zip').val().trim();
-        const city = $('#city').val().trim();
-        const country = $('#country').val().trim();
-        const phone = $('#telephone').val().trim();
-        const email = $('#email').val().trim();
-        const username = $('#username').val().trim();
-        const password = $('#password').val().trim();
-        const confirm = $('#confirm_password').val().trim();
-        const payment = $('#payment').val().trim();
+        const firstName = $('#firstname').val()?.trim() || '';
+        const lastName = $('#lastname').val()?.trim() || '';
+        const street = $('#street').val()?.trim() || '';
+        const houseNumber = $('#house_number').val()?.trim() || '';
+        const zip = $('#zip').val()?.trim() || '';
+        const city = $('#city').val()?.trim() || '';
+        const country = $('#country').val()?.trim() || '';
+        const phone = $('#telephone').val()?.trim() || '';
+        const email = $('#email').val()?.trim() || '';
+        const username = $('#username').val()?.trim() || '';
+        const password = $('#password').val()?.trim() || '';
+        const confirm = $('#confirm_password').val()?.trim() || '';
+        const holderName = $('#holder_name').val()?.trim() || '';
+        const paymentMethod = $('#payment_method').val();
+        const ccExpiry = paymentMethod === 'creditcard' ? ($('#creditcard_expiry').val()?.trim() || '') : '';
+        const ccCvv = paymentMethod === 'creditcard' ? ($('#creditcard_cvv').val()?.trim() || '') : '';
+        
+        
 
         // IDs aller Pflichtfelder
         const requiredFields = [
@@ -144,36 +168,67 @@ $(document).ready(function () {
         }
 
         // Zahlungsinformationen (mind. IBAN oder Kreditkarte)
-        if (payment && !(ibanRegex.test(payment) || ccRegex.test(payment))) {
-            errors.push("Please enter valid payment information (IBAN or Credit Card).");
-            $('#payment').addClass('is-invalid');
+        if (holderName && !lettersOnlyRegex.test(holderName)) {
+            errors.push("Holder name must contain only letters.");
+            $('#holder_name').addClass('is-invalid');
         } else {
-            $('#payment').removeClass('is-invalid');
+            $('#holder_name').removeClass('is-invalid');
         }
 
+        if (paymentMethod === 'creditcard') {
+            if (!ccRegex.test($('#creditcard_number').val().trim())) {
+                errors.push("Credit card number must be 12–19 digits.");
+                $('#creditcard_number').addClass('is-invalid');
+            } else {
+                $('#creditcard_number').removeClass('is-invalid');
+            }
+            if (!ccExpiryRegex.test(ccExpiry)) {
+                errors.push("Credit card expiry must be in MM/YYYY format.");
+                $('#creditcard_expiry').addClass('is-invalid');
+            } else {
+                $('#creditcard_expiry').removeClass('is-invalid');
+            }
+            if (!ccCvvRegex.test(ccCvv)) {
+                errors.push("CVV must be 3 or 4 digits.");
+                $('#creditcard_cvv').addClass('is-invalid');
+            } else {
+                $('#creditcard_cvv').removeClass('is-invalid');
+            }
+        } else if (paymentMethod === 'iban') {
+            if (!ibanRegex.test($('#iban').val().trim())) {
+                errors.push("Invalid IBAN format.");
+                $('#iban').addClass('is-invalid');
+            } else {
+                $('#iban').removeClass('is-invalid');
+            }
+        }
+        
         // Falls Fehler vorhanden, abbrechen und anzeigen
         if (errors.length > 0) {
             alert(errors.join("\n"));
             return;
         }
 
-        // Daten-Objekt für die API
         const data = {
             pronouns: $('#salutation').val(),
-            given_name: $('#firstname').val(),
-            surname: $('#lastname').val(),
-            street: $('#street').val(),
-            house_number: $('#house_number').val(),
-            postal_code: $('#zip').val(),
-            city: $('#city').val(),
-            country: $('#country').val(),
-            telephone: $('#telephone').val() || '',
-            email: $('#email').val(),
-            username: $('#username').val(),
-            password: $('#password').val(),
-            confirm_password: $('#confirm_password').val(),
-            payment: $('#payment').val()
-        };
+            given_name: firstName,
+            surname: lastName,
+            street,
+            house_number: houseNumber,
+            postal_code: zip,
+            city,
+            country,
+            telephone: phone,
+            email,
+            username,
+            password,
+            confirm_password: confirm,
+            holder_name: holderName || (firstName + ' ' + lastName),
+            iban: paymentMethod === 'iban' ? $('#iban').val()?.trim() || null : null,
+            creditcard_number: paymentMethod === 'creditcard' ? $('#creditcard_number').val()?.trim() || null : null,
+            creditcard_expiry: paymentMethod === 'creditcard' ? ccExpiry : null,
+            creditcard_cvv: paymentMethod === 'creditcard' ? ccCvv : null
+        };  
 
         // AJAX-Request an das Backend
         try {

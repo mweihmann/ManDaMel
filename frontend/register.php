@@ -88,9 +88,40 @@
             </div>
 
             <div class="mb-3">
-                <label for="payment" class="form-label">Payment Information</label>
-                <input type="text" class="form-control" id="payment" name="payment" placeholder="IBAN or Credit Card" required>
+                <label for="payment_method" class="form-label">Payment Method</label>
+                <select class="form-select" id="payment_method" required>
+                    <option value="">Select a method</option>
+                    <option value="iban">IBAN</option>
+                    <option value="creditcard">Credit Card</option>
+                </select>
             </div>
+
+            <!-- IBAN-Feld -->
+            <div id="iban_group" class="mb-3 d-none">
+                <label for="iban" class="form-label">IBAN</label>
+                <input type="text" class="form-control" id="iban" name="iban" placeholder="DE89 3704 0044 0532 0130 00">
+            </div>
+
+            <!-- Kreditkarten-Felder -->
+            <div id="creditcard_group" class="mb-3 d-none">
+                <label class="form-label">Credit Card</label>
+                <input type="text" class="form-control mb-2" id="creditcard_number" name="creditcard_number" placeholder="Card Number">
+                <div class="row">
+                    <div class="col-6 mb-2">
+                        <input type="text" class="form-control" id="creditcard_expiry" name="creditcard_expiry" placeholder="MM/YYYY">
+                    </div>
+                    <div class="col-6 mb-2">
+                        <input type="text" class="form-control" id="creditcard_cvv" name="creditcard_cvv" placeholder="CVV">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inhaber -->
+            <div class="mb-3">
+                <label for="holder_name" class="form-label">Card/Account Holder Name</label>
+                <input type="text" class="form-control" id="holder_name" name="holder_name" placeholder="John Doe (optional)">
+            </div>
+
 
             <!-- Absenden-Button -->
             <button type="submit" class="btn w-100 text-white" style="background-color: #fd7625;">Register</button>
@@ -102,8 +133,5 @@
         </p>
     </div>
 </div>
-
-
-<script src="js/register.js"></script>
 
 <?php include "includes/footer.php"; ?>
