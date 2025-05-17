@@ -171,7 +171,7 @@ class UserLogic
         ");
     
         $fields['id'] = $userId;
-        file_put_contents('debug_update.log', print_r($fields, true));
+        // file_put_contents('debug_update.log', print_r($fields, true));
         return $stmt->execute($fields);
     }
 

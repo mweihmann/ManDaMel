@@ -77,6 +77,7 @@ $(document).ready(function () {
                       <div class="mb-3"><label>Postal Code</label><input type="text" class="form-control" name="postal_code" value="${user.postal_code}"></div>
                       <div class="mb-3"><label>Street</label><input type="text" class="form-control" name="street" value="${user.street}"></div>
                       <div class="mb-3"><label>House Number</label><input type="text" class="form-control" name="house_number" value="${user.house_number}"></div>
+                      <div class="mb-3"><label>Current Password (required for update)</label><input type="password" class="form-control" name="current_password" required></div>
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
@@ -113,6 +114,7 @@ $(document).ready(function () {
 
         // Formularwerte sammeln
         const data = {
+          username: $('input[name="username"]').val(),
           email: $('input[name="email"]').val(),
           telephone: $('input[name="telephone"]').val(),
           city: $('input[name="city"]').val(),
@@ -122,7 +124,8 @@ $(document).ready(function () {
           house_number: $('input[name="house_number"]').val(),
           given_name: $('input[name="given_name"]').val(),
           surname: $('input[name="surname"]').val(),
-          pronouns: $('input[name="pronouns"]').val()
+          pronouns: $('input[name="pronouns"]').val(),
+          current_password: $('input[name="current_password"]').val()
         };
 
         // Änderungen speichern
@@ -180,6 +183,11 @@ $(document).ready(function () {
                   Download
                 </button>
               </td>
+              <td>
+                <button class="btn btn-outline-secondary btn-sm invoice-btn" data-order-id="${order.id}">
+                  📄 Print Invoice
+                </button>
+              </td>
             </tr>
           `;
         });
@@ -199,6 +207,7 @@ $(document).ready(function () {
                     <tr>
                       <th>Product</th>
                       <th>Download</th>
+                      <th>Invoice</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -392,5 +401,32 @@ $(document).ready(function () {
       });
     });
   }
+
+  $('body').on('click', '.invoice-btn', function () {
+    const orderId = $(this).data('order-id');
+  
+    fetch(`http://localhost:5000/api/generate_invoice.php?order_id=${orderId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Fehler beim Generieren der Rechnung');
+      return res.blob();
+    })
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Rechnung_Order_${orderId}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    })
+    .catch(err => alert('Fehler beim Download der Rechnung.'));
+  });
+  
 
 });

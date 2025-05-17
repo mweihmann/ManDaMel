@@ -13,12 +13,19 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │
 ├── 📁 backend                          -- PHP backend application
 │   ├── 📁 .devcontainer                -- Dev container config (VS Code)
+│   │   ├── 📄 devcontainer.json       -- Dev container configuration for VS Code
+│   │   ├── 🐘 Dockerfile              -- Dockerfile to set up backend environment
+│   │   └── ⚙️ xdebug.ini              -- Xdebug config for backend container
 │   ├── 📁 .vscode                      -- Debug configuration for VS Code
+│   │   └── 🐞 launch.json             -- VS Code launch config for Xdebug
 │   ├── 📁 auth                         -- Authentication logic & middleware
 │   ├── 📁 businesslogic                -- Business rules for cart, users, products, etc.
 │   ├── 📁 config                       -- Config files (bootstrap, DB connection)
+│   ├── 📁 lib\fpdf                     -- All FPDF files for crteating pdf invoices
 │   ├── 📁 models                       -- PHP models for database mapping
 │   ├── 📁 public                       -- Publicly accessible API endpoints (e.g. login, register)
+│   │   ├── 📁 api
+│   │   └── 📄 composer.json           -- Composer dependencies config
 │   ├── 📁 uploads\files                -- Uploaded product files (PDFs, ZIPs)
 │   ├── 📦 vendor                       -- Composer dependencies (auto-generated)
 │   ├── ⚙️ .env                         -- Environment variables (not versioned)
@@ -27,17 +34,23 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 │   ├── 📄 composer.lock               -- Dependency lock file
 │   └── 🔌 datahandler.php              -- Generic data handler (optional)
 │
-├── 📁 database                         -- SQL & DBML files
-│   ├── 🧱 init.sql                    -- Initial DB schema
-│   ├── 🌱 seed.sql                    -- Optional: seed data
-│   └── 🧩 mandamel.dbml               -- DBML model (for visualization)
+├── 📁 database                        -- SQL initialization for MySQL
+│   ├── 🧱 init.sql                    -- SQL schema definition
+│   ├── 🧩 manda.dbml                   -- SQL DB Visualisation
+│   └── 🌱 seed.sql                    -- Insert demo/seed data
 │
-├── 📁 frontend                         -- Frontend PHP application
-│   ├── 📁 .devcontainer                -- Frontend dev container (VS Code)
-│   ├── 📁 .vscode                      -- Debugging configs
-│   ├── 📁 css                          -- Custom styles
+├── 📁 frontend                        -- Frontend application
+│   ├── 📁 .devcontainer               -- VS Code dev container for frontend
+│   │   ├── 📄 devcontainer.json       -- Dev container setup for frontend
+│   │   ├── 🐘 Dockerfile              -- Dockerfile for frontend container
+│   │   └── ⚙️ xdebug.ini              -- Optional frontend Xdebug config
+│   ├── 📁 .vscode
+│   │   └── 🐞 launch.json             -- Xdebug launch config for frontend
+│   ├── 📁 css
+│   │   └── 💅 style.css               -- CSS styles
 │   ├── 📁 includes                     -- Header/Footer includes
-│   ├── 📁 js                           -- JavaScript modules (AJAX, events, etc.)
+│   ├── 📁 js                          -- Placeholder for JavaScript files
+│   ├── 🧾 index.php                   -- Main frontend file that loads data
 │   ├── 📄 checkout.php                -- Checkout page
 │   ├── 📄 config.php                  -- Frontend configuration
 │   ├── 📄 index.php                   -- Start page
@@ -53,8 +66,9 @@ This project is a **PHP-based digital shop** with a **MySQL backend** running in
 ├── 📄 .gitignore                       -- Git ignored files & folders
 ├── 🐳 docker-compose.yml              -- Docker configuration
 ├── 🍎 MACOS_START.sh                  -- Startup script (macOS)
-├── 🪟 WINDOWS_START.ps1               -- Startup script (Windows)
-└── 📖 README.md                        -- This documentation file
+├── 📖 README.md                        -- This documentation file
+└── 🪟 WINDOWS_START.ps1               -- Startup script (Windows)
+
 ```
 
 ## ✅ Prerequisites
@@ -94,6 +108,10 @@ Copy-Item .env.example .env
 cp .env.example .env
 ```
 
+### With PHP Debugging (not necessary)
+
+- Comment in the lines `code ./frontend` and `code ./backend` inside of `WINDOWS_START.ps1` or `MACOS_START.sh`
+
 ### Windows
 
 1. Open PowerShell as Administrator
@@ -117,13 +135,13 @@ chmod +x MACOS_START.sh
 
 ---
 
-### After
+### Debugging (only for debugging)
 
 > ⚠️ If you have limited RAM/CPU: open backend and frontend containers **one after the other**.
 
-3. Open **VS Code** in the `backend` and/or `frontend` folders
-4. Use Command Palette → **“Dev Containers: Reopen in Container”**
-5. Once loaded:
+1. Open **VS Code** in the `backend` and/or `frontend` folders
+2. Use Command Palette → **“Dev Containers: Reopen in Container”**
+3. Once loaded:
    - Open `.vscode/launch.json`
    - Press `F5` to start the debugger
 
@@ -132,7 +150,6 @@ chmod +x MACOS_START.sh
 ### 🌐 Access the Application
 
 - Backend: [http://localhost:5000](http://localhost:5000) 
-- API Test: [http://localhost:5000/api/serviceHandler.php?method=getAllUsers](http://localhost:5000/api/serviceHandler.php?method=getAllUsers) 
 - Frontend: [http://localhost:3000](http://localhost:3000)
 
 ---
