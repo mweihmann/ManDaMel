@@ -55,13 +55,20 @@ class PaymentLogic
         $stmt = $pdo->prepare("
             SELECT id, method, 
                    RIGHT(creditcard_number, 4) AS cc_last, 
-                   iban, 
-                   voucher_code 
+                   iban
             FROM payment_info 
             WHERE user_id = ?
         ");
         $stmt->execute([$userId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $methods =  $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Fallbacks für fehlende Werte
+        foreach ($methods as &$m) {
+            if (!isset($m['cc_last'])) $m['cc_last'] = '';
+            if (!isset($m['iban'])) $m['iban'] = '';
+        }
+
+        return $methods;
     }    
 
 }

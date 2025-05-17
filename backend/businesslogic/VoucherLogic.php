@@ -18,8 +18,8 @@ class VoucherLogic {
     public static function create(?string $code, float $value, string $expires_at): bool {
         global $pdo;
         if (!$code) $code = self::generateCode();
-        $stmt = $pdo->prepare("INSERT INTO vouchers (code, value, expires_at) VALUES (?, ?, ?)");
-        return $stmt->execute([$code, $value, $expires_at]);
+        $stmt = $pdo->prepare("INSERT INTO vouchers (code, value, remaining_value, expires_at) VALUES (?, ?, ?, ?)");
+        return $stmt->execute([$code, $value, $value, $expires_at]);
     }
 
     public static function update(int $id, string $code, float $value, string $expires_at): bool {
@@ -46,8 +46,21 @@ class VoucherLogic {
 
     public static function markAsUsed(int $id): bool {
         global $pdo;
-        $stmt = $pdo->prepare("UPDATE vouchers SET is_used = 1 WHERE id = ?");
+        $stmt = $pdo->prepare("UPDATE vouchers SET is_used = 1, remaining_value = 0 WHERE id = ?");
         return $stmt->execute([$id]);
     }
+
+    public static function validateVoucher(string $code): ?array {
+        global $pdo;
+    
+        $stmt = $pdo->prepare("SELECT id, value, remaining_value, expires_at, is_used FROM vouchers WHERE code = ?");
+        $stmt->execute([$code]);
+        $voucher = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if (!$voucher) return null;
+    
+        $voucher['expired'] = strtotime($voucher['expires_at']) < time();
+        return $voucher;
+    }    
     
 }
