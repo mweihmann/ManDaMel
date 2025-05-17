@@ -1,22 +1,25 @@
 $(document).ready(function () {
-    const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
-    if (!token) return location.href = 'login.php';
-  
-    $.ajax({
-      url: 'http://localhost:5000/api/get_all_users.php',
-      method: 'GET',
-      headers: { Authorization: `Bearer ${token}` },
-      success: function (users) {
-        const container = $('#admin-user-list');
-        if (!users.length) return container.html('<p>No users found.</p>');
-  
-        let accordionHtml = `<div class="accordion" id="adminAccordion">`;
-  
-        users.forEach((user, i) => {
-          const collapseId = `collapseUser${user.id}`;
-          const headingId = `headingUser${user.id}`;
-  
-          accordionHtml += `
+  // Token prüfen – Weiterleitung, wenn nicht eingeloggt
+  const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
+  if (!token) return location.href = 'login.php';
+
+  // AJAX-Anfrage: Alle Benutzer abrufen
+  $.ajax({
+    url: 'http://localhost:5000/api/get_all_users.php',
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+    success: function (users) {
+      const container = $('#admin-user-list');
+      if (!users.length) return container.html('<p>No users found.</p>');
+
+      let accordionHtml = `<div class="accordion" id="adminAccordion">`;
+
+      // Jeden Benutzer als Akkordeon anzeigen
+      users.forEach((user, i) => {
+        const collapseId = `collapseUser${user.id}`;
+        const headingId = `headingUser${user.id}`;
+
+        accordionHtml += `
             <div class="accordion-item">
               <h2 class="accordion-header" id="${headingId}">
                 <button class="accordion-button ${i !== 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="${i === 0}" aria-controls="${collapseId}">
@@ -61,53 +64,55 @@ $(document).ready(function () {
               </div>
             </div>
           `;
+      });
+
+      accordionHtml += `</div>`;
+      container.html(accordionHtml);
+
+      // Eventlistener für Formular-Änderung je Benutzer
+      $('.user-form').on('submit', function (e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+        const $form = $(this);
+
+        const data = {
+          id,
+          username: $form.find('[name="username"]').val(),
+          email: $form.find('[name="email"]').val(),
+          given_name: $form.find('[name="given_name"]').val(),
+          surname: $form.find('[name="surname"]').val(),
+          telephone: $form.find('[name="telephone"]').val(),
+          country: $form.find('[name="country"]').val(),
+          city: $form.find('[name="city"]').val(),
+          postal_code: $form.find('[name="postal_code"]').val(),
+          street: $form.find('[name="street"]').val(),
+          house_number: $form.find('[name="house_number"]').val(),
+          pronouns: $form.find('[name="pronouns"]').val(),
+          role: $form.find('[name="role"]').val(),
+          user_state: $form.find('[name="user_state"]').val()
+        };
+
+        $.ajax({
+          url: 'http://localhost:5000/api/update_user_admin.php',
+          method: 'POST',
+          contentType: 'application/json',
+          headers: { Authorization: `Bearer ${token}` },
+          data: JSON.stringify(data),
+          success: res => alert(res.success ? '✔️ User updated.' : '❌ Update failed'),
+          error: () => alert('⚠️ Error while saving user.')
         });
-  
-        accordionHtml += `</div>`;
-        container.html(accordionHtml);
-  
-        $('.user-form').on('submit', function (e) {
-          e.preventDefault();
-          const id = $(this).data('id');
-          const $form = $(this);
-  
-          const data = {
-            id,
-            username: $form.find('[name="username"]').val(),
-            email: $form.find('[name="email"]').val(),
-            given_name: $form.find('[name="given_name"]').val(),
-            surname: $form.find('[name="surname"]').val(),
-            telephone: $form.find('[name="telephone"]').val(),
-            country: $form.find('[name="country"]').val(),
-            city: $form.find('[name="city"]').val(),
-            postal_code: $form.find('[name="postal_code"]').val(),
-            street: $form.find('[name="street"]').val(),
-            house_number: $form.find('[name="house_number"]').val(),
-            pronouns: $form.find('[name="pronouns"]').val(),
-            role: $form.find('[name="role"]').val(),
-            user_state: $form.find('[name="user_state"]').val()
-          };
-  
-          $.ajax({
-            url: 'http://localhost:5000/api/update_user_admin.php',
-            method: 'POST',
-            contentType: 'application/json',
-            headers: { Authorization: `Bearer ${token}` },
-            data: JSON.stringify(data),
-            success: res => alert(res.success ? '✔️ User updated.' : '❌ Update failed'),
-            error: () => alert('⚠️ Error while saving user.')
-          });
-        });
-      },
-      error: () => $('#admin-user-list').html('<p class="text-danger">Failed to load users.</p>')
-    });
-  
-    function renderInput(label, name, value = '') {
-      return `
+      });
+    },
+    error: () => $('#admin-user-list').html('<p class="text-danger">Failed to load users.</p>')
+  });
+
+  // Eingabefeld für das Formular generieren
+  function renderInput(label, name, value = '') {
+    return `
         <div class="col-md-4">
           <label class="form-label">${label}</label>
           <input class="form-control" name="${name}" value="${value || ''}" />
         </div>
       `;
-    }
-  });  
+  }
+});  

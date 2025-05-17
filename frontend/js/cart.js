@@ -1,12 +1,15 @@
+// JWT-Token aus LocalStorage oder SessionStorage holen
 function getJwtToken() {
     return localStorage.getItem('jwt') || sessionStorage.getItem('jwt') || null;
 }
 
+// Nach Laden der Seite: Cart-Handler und Anzeige aktualisieren
 document.addEventListener('DOMContentLoaded', () => {
     attachCartHandlers();
     loadCartCount();
 });
 
+// Klick-Events für Warenkorb-Buttons und Drag-and-Drop einrichten
 function attachCartHandlers() {
     document.body.addEventListener('click', async (e) => {
         if (e.target.classList.contains('add-to-cart')) {
@@ -24,6 +27,7 @@ function attachCartHandlers() {
         }
     });
 
+    // Drag-and-Drop auf Produkte anwenden
     document.querySelectorAll('[data-draggable-product]').forEach(elem => {
         elem.setAttribute('draggable', true);
         elem.addEventListener('dragstart', (e) => {
@@ -31,6 +35,7 @@ function attachCartHandlers() {
         });
     });
 
+    // Produkt in den Warenkorb ziehen
     const cartIcon = document.getElementById('cart-icon-dropzone');
     if (cartIcon) {
         cartIcon.addEventListener('dragover', e => e.preventDefault());
@@ -42,6 +47,7 @@ function attachCartHandlers() {
     }
 }
 
+// Produkt zum Warenkorb hinzufügen
 async function addToCart(productId, quantity = 1) {
     try {
         const jwt = getJwtToken();
@@ -67,6 +73,7 @@ async function addToCart(productId, quantity = 1) {
     }
 }
 
+// Menge im Warenkorb direkt setzen
 async function updateQuantity(productId, quantity) {
     const jwt = getJwtToken();
     const res = await fetch('http://localhost:5000/api/cart_update.php', {
@@ -85,6 +92,7 @@ async function updateQuantity(productId, quantity) {
     }
 }
 
+// Menge um +1 oder -1 ändern
 async function adjustQuantity(productId, diff) {
     const jwt = getJwtToken();
     const res = await fetch('http://localhost:5000/api/cart_get.php', {
@@ -100,11 +108,13 @@ async function adjustQuantity(productId, diff) {
     }
 }
 
+// Anzahl im Badge (Symbol) aktualisieren
 function updateCartBadge(count) {
     const badge = document.querySelector('.bi-cart-fill + .badge');
     if (badge) badge.textContent = count;
 }
 
+// Warenkorb-Anzahl laden und anzeigen
 async function loadCartCount() {
     try {
         const jwt = getJwtToken();
@@ -127,11 +137,13 @@ async function loadCartCount() {
     }
 }
 
+// Warenkorb-Seitenleiste anzeigen
 async function renderCartSidebar(items = null) {
     try {
         const jwt = getJwtToken();
         let total = 0;
-        
+
+        // Warenkorb aus Backend laden, falls nicht übergeben
         if (!items) {
             const res = await fetch('http://localhost:5000/api/cart_get.php', {
                 headers: {
@@ -189,12 +201,13 @@ async function renderCartSidebar(items = null) {
                 </p>
             `;
         }
-        
+
     } catch (err) {
         console.error('Error showing the cart:', err);
     }
 }
 
+// Checkout auslösen (für Gäste & eingeloggte User)
 window.submitCheckout = async function () {
     const selectedMethod = document.querySelector('[name="payment_method"]:checked')?.value;
     const voucherCode = document.getElementById('voucher_code')?.value;

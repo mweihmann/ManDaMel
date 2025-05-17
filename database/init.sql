@@ -1,6 +1,8 @@
+-- Datenbank erstellen, falls nicht vorhanden
 CREATE DATABASE IF NOT EXISTS mandamel;
 USE mandamel;
 
+-- Benutzer-Tabelle
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100) UNIQUE NOT NULL,
@@ -21,6 +23,7 @@ CREATE TABLE users (
     last_login DATETIME NULL
 );
 
+-- Zahlungsinformationen
 CREATE TABLE payment_info (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -35,11 +38,13 @@ CREATE TABLE payment_info (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+-- Produktkategorien
 CREATE TABLE categories (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) UNIQUE NOT NULL
 );
 
+-- Produkte
 CREATE TABLE products (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -54,6 +59,7 @@ CREATE TABLE products (
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
+-- Gutscheine
 CREATE TABLE vouchers (
     id INT PRIMARY KEY AUTO_INCREMENT,
     code VARCHAR(5) UNIQUE NOT NULL,
@@ -62,6 +68,7 @@ CREATE TABLE vouchers (
     is_used BOOLEAN DEFAULT FALSE
 );
 
+-- Promo-Codes
 CREATE TABLE promo_codes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     code VARCHAR(50) UNIQUE NOT NULL,
@@ -71,6 +78,7 @@ CREATE TABLE promo_codes (
     usage_limit INT
 );
 
+-- Bestellungen
 CREATE TABLE orders (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -84,7 +92,7 @@ CREATE TABLE orders (
     FOREIGN KEY (voucher_id) REFERENCES vouchers(id)
 );
 
-
+-- Bestellpositionen
 CREATE TABLE order_items (
     id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT NOT NULL,
@@ -103,7 +111,7 @@ CREATE TABLE refresh_tokens (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Tabelle für persistente Warenkörbe
+-- Warenkörbe (persistente Speicherung)
 CREATE TABLE carts (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,

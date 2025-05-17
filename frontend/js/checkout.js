@@ -1,22 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Lade Warenkorb beim Laden der Seite
     loadCheckoutCart();
 
     const form = document.getElementById('checkout-form');
+
+    // Wenn das Formular existiert, auf Absenden reagieren
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
         if (!token) return alert('Bitte zuerst einloggen.');
 
+
+        // Eingaben aus dem Formular lesen
         const voucher_code = document.getElementById('voucher_code')?.value.trim() || null;
         const payment_method = document.querySelector('input[name="payment_method"]:checked')?.value || null;
 
+        // Mindestens eine Eingabe erforderlich
         if (!voucher_code && !payment_method) {
             document.getElementById('checkout-message').innerHTML = '<div class="text-danger">Bitte Gutschein oder Zahlungsmethode wählen.</div>';
             return;
         }
 
         try {
+            // API-Aufruf an checkout.php
             const res = await fetch('http://localhost:5000/api/checkout.php', {
                 method: 'POST',
                 headers: {
@@ -33,11 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await res.json();
 
+
+            // Erfolgsmeldung bei erfolgreichem Checkout
             if (data.status === 'success') {
                 document.getElementById('checkout-message').innerHTML =
                     `<div class="alert alert-success">✅ Bestellung erfolgreich abgeschlossen!<br>Bestellnummer: <strong>#${data.order_id}</strong><br>Weiterleitung in Kürze...</div>`;
                 setTimeout(() => {
-                    window.location.href = 'my_account.php';
+                    window.location.href = 'my_account.php'; // Weiterleitung zur Bestellübersicht
                 }, 2500);
             } else {
                 document.getElementById('checkout-message').innerHTML =
@@ -53,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Warenkorb laden und anzeigen
 async function loadCheckoutCart() {
     const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
     try {
@@ -60,13 +70,15 @@ async function loadCheckoutCart() {
             headers: {
                 ...(token && { 'Authorization': `Bearer ${token}` })
             },
-            credentials: 'include'
+            credentials: 'include' // Cookies bei Bedarf mitsenden
         });
 
         const data = await res.json();
         const container = document.getElementById('checkout-items');
         const totalContainer = document.getElementById('checkout-total');
 
+
+        // Wenn Warenkorb leer ist
         if (!data.items || data.items.length === 0) {
             container.innerHTML = '<p class="text-muted">Dein Warenkorb ist leer.</p>';
             totalContainer.innerHTML = '';
@@ -74,6 +86,7 @@ async function loadCheckoutCart() {
             return;
         }
 
+        // Produkte auflisten
         let html = '<ul class="list-group">';
         data.items.forEach(item => {
             html += `
@@ -91,9 +104,11 @@ async function loadCheckoutCart() {
         document.getElementById('checkout-items').innerHTML =
             '<p class="text-danger">Fehler beim Laden des Warenkorbs.</p>';
     }
+    // Zahlungsmethoden nachladen
     loadSavedPaymentMethods(token);
 }
 
+// Gespeicherte Zahlungsmethoden laden
 async function loadSavedPaymentMethods(token) {
     const methodGroup = document.getElementById('payment-method-group');
     if (!methodGroup) return;
@@ -106,19 +121,21 @@ async function loadSavedPaymentMethods(token) {
         });
 
         const data = await res.json();
+        // Wenn keine Methoden vorhanden sind
         if (!data.success || !data.methods.length) {
             methodGroup.innerHTML = '<p class="text-muted">Keine Zahlungsmethoden gespeichert.</p>';
             return;
         }
 
-        methodGroup.innerHTML = ''; // Clear existing static entries
+        methodGroup.innerHTML = ''; // Vorherigen Inhalt löschen
 
+        // Zahlungsmethoden anzeigen
         data.methods.forEach((method, index) => {
             const label = method.method === 'creditcard'
                 ? `Kreditkarte •••• ${method.cc_last}`
                 : method.method === 'iban'
-                ? `IBAN ${method.iban.slice(0, 6)}...`
-                : `Gutschein ${method.voucher_code}`;
+                    ? `IBAN ${method.iban.slice(0, 6)}...`
+                    : `Gutschein ${method.voucher_code}`;
 
             methodGroup.innerHTML += `
                 <div class="form-check">

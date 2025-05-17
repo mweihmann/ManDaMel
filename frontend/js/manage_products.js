@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
+    loadProducts(); // Produkte beim Laden der Seite abrufen
 
     const form = document.getElementById('add-product-form');
 
     if (!form) return;
 
-    form.addEventListener('submit', function(event) {
+    // Formular für neues Produkt absenden
+    form.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const formData = new FormData(form);
@@ -15,32 +16,33 @@ document.addEventListener('DOMContentLoaded', () => {
             body: formData,
             credentials: 'include' // optional falls Cookies verwendet werden
         })
-        .then(async res => {
-            const responseText = await res.text();
-            console.log('Antwort vom Server:', responseText);
+            .then(async res => {
+                const responseText = await res.text();
+                console.log('Antwort vom Server:', responseText);
 
-            try {
-                const data = JSON.parse(responseText);
-                if (data.status === 'success') {
-                    alert('✅ Produkt erfolgreich hinzugefügt!');
-                    form.reset();
-                    loadProducts(); // Optional: aktualisiere die Liste
-                } else {
-                    alert('❌ Fehler beim Hinzufügen: ' + (data.message || 'Unbekannter Fehler'));
+                try {
+                    const data = JSON.parse(responseText);
+                    if (data.status === 'success') {
+                        alert('✅ Produkt erfolgreich hinzugefügt!');
+                        form.reset();
+                        loadProducts(); // Liste neu laden
+                    } else {
+                        alert('❌ Fehler beim Hinzufügen: ' + (data.message || 'Unbekannter Fehler'));
+                    }
+                } catch (e) {
+                    alert('❌ Fehler beim Verarbeiten der Serverantwort.');
+                    console.error('JSON Parse Error:', e, responseText);
                 }
-            } catch (e) {
-                alert('❌ Fehler beim Verarbeiten der Serverantwort.');
-                console.error('JSON Parse Error:', e, responseText);
-            }
-        })
-        .catch(error => {
-            console.error('Netzwerkfehler:', error);
-            alert('❌ Netzwerkfehler beim Hochladen.');
-        });
+            })
+            .catch(error => {
+                console.error('Netzwerkfehler:', error);
+                alert('❌ Netzwerkfehler beim Hochladen.');
+            });
     });
 
 });
 
+// Produkte vom Server abrufen und anzeigen
 function loadProducts() {
     fetch('http://localhost:5000/api/product_edit.php')
         .then(res => res.json())
@@ -59,6 +61,7 @@ function loadProducts() {
                 const collapseId = `collapseProduct${index}`;
                 const headingId = `headingProduct${index}`;
 
+                // Einzelnes Produkt als Formular anzeigen
                 html += `
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="${headingId}">
@@ -113,17 +116,18 @@ function updateProduct(event, id) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(result => {
-        if (result.status === 'success') {
-            alert('Produkt aktualisiert.');
-            loadProducts();
-        } else {
-            alert('Fehler beim Speichern.');
-        }
-    });
+        .then(res => res.json())
+        .then(result => {
+            if (result.status === 'success') {
+                alert('Produkt aktualisiert.');
+                loadProducts();
+            } else {
+                alert('Fehler beim Speichern.');
+            }
+        });
 }
 
+// Produktdaten absenden und aktualisieren
 function editProduct(id) {
     const section = document.querySelector(`form[data-id="${id}"]`);
     if (!section) return;
@@ -136,15 +140,15 @@ function editProduct(id) {
         method: 'POST',
         body: formData
     })
-    .then(res => res.json())
-    .then(response => {
-        if (response.status === 'success') {
-            alert('Produkt gespeichert.');
-            loadProducts();
-        } else {
-            alert('Fehler beim Speichern.');
-        }
-    })
-    .catch(() => alert('Fehler beim Speichern.'));
+        .then(res => res.json())
+        .then(response => {
+            if (response.status === 'success') {
+                alert('Produkt gespeichert.');
+                loadProducts();
+            } else {
+                alert('Fehler beim Speichern.');
+            }
+        })
+        .catch(() => alert('Fehler beim Speichern.'));
 }
 

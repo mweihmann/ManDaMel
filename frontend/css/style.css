@@ -2,80 +2,79 @@
 @media (max-width: 576px) {
   .search-input {
     max-width: 100%;
+    /* Suchfeld soll auf kleinen Bildschirmen nicht überlaufen */
   }
 }
 
-/* Navigation */
+/* Navigation: Logo-Bild */
 .logo-img {
-    height: 100px;
-    width: auto;
-  }
-  
-  .logo-img {
-    width: 100px;
-    height: auto;
-  }
-  
-  .search-input {
-  width: 100%;
-  max-width: 380px;
+  height: 100px;
+  width: auto;
 }
 
-  
-  
-  
-  
-  
-  
-  .login-box {
-    max-width: 400px;
-    margin: 80px auto;
-    padding: 20px;
-    border-top: 3px solid #ff6f31;
-    text-align: center;
-  }
-  
-  .btn-orange {
-    background-color: #ff6f31;
-    color: #fff;
-  }
-  
-  .btn-orange:hover {
-    background-color: #e65c1a;
-  }
-  
-  a {
-    color: #ff6f31;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
+/* Alternative Definition (kann redundant sein) */
+.logo-img {
+  width: 100px;
+  height: auto;
+}
 
+/* Suchfeld in der Navigation */
+.search-input {
+  width: 100%;      /* volle Breite innerhalb Container */
+  max-width: 380px; /* begrenzte Maximalbreite */
+}
 
+/* Login-Box Layout */
+.login-box {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 20px;
+  border-top: 3px solid #ff6f31;
+  text-align: center;
+}
 
+/* Orangefarbener Button */
+.btn-orange {
+  background-color: #ff6f31;
+  color: #fff;
+}
 
+/* Hover-Zustand des Buttons */
+.btn-orange:hover {
+  background-color: #e65c1a;
+}
 
-  /* Centered form wrapper with clean vertical spacing */
+/* Standard-Link-Stil */
+a {
+  color: #ff6f31;
+  text-decoration: none;
+}
+
+/* Hover-Zustand für Links */
+a:hover {
+  text-decoration: underline;
+}
+
+/* Zentrierte Formular-Umgebung (z. B. für Login/Registrierung) */
 .auth-form-container {
-    min-height: calc(100vh - 150px); /* dynamische Höhe, minus Header & Footer */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+  min-height: calc(100vh - 150px);
+  /* dynamische Höhe, minus Header & Footer */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
-/* Optional: Abstand für die orange Linie */
+/* Gestaltete Trennlinie in Orange */
 .orange-line {
-    height: 3px;
-    background-color: #fd7625;
-    margin: 2rem 0; /* mehr Abstand oben & unten */
+  height: 3px;
+  background-color: #fd7625;
+  margin: 2rem 0;
+  /* mehr Abstand oben & unten */
 }
 
-
-
+/* Objekt skalieren und füllen ohne Verzerrung (z. B. Produktbilder) */
 .object-fit-cover {
   object-fit: cover;
   width: 100%;
